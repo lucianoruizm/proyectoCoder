@@ -38,10 +38,10 @@ const deleteFromCart = async (productId) => {
   const cartId = '64ea4f4893207f61409583a8'
   console.log("cartId: ", cartId)
   console.log("productId: ", productId)
- //try {
- //  await axios.delete(`http://localhost:8080/api/carts/${cartId}/products/${productId}`);
- //} catch (error) {
- //  console.error(error);
- //}
+  try {
+    await axios.delete(`http://localhost:8080/api/carts/${cartId}/products/${productId}`);
+  } catch (error) {
+    console.error(error);
+  }
 }
 </script>
