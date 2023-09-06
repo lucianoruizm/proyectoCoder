@@ -75,12 +75,12 @@ cartRouter.put('/:cid', async (req, res) => {
 cartRouter.put('/:cid/products/:pid', async (req, res) => {
     try {
         const cartId = req.params.cid
-        const productsId = req.params.pid
-        const data = req.body
+        const productId = req.params.pid
+        const { quantity } = req.body
     
-        const updateQuantityProducts = await cartManager.updateQuantityProducts(cartId, productsId, data)
-        if (!data) {
-            return `No se puede actualizar cantidad de productos con ID ${productsId} en el cart con ID ${cartId}`
+        const updateQuantityProducts = await cartManager.updateQuantityProducts(cartId, productId, quantity)
+        if (!quantity) {
+            return `No se puede actualizar cantidad de productos con ID ${productId} en el cart con ID ${cartId}`
         }
         return res.json(updateQuantityProducts)
 

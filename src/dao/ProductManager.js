@@ -35,7 +35,8 @@ class ProductManager {
     }
     
     async addProduct(data) {
-        return this.model.create({
+      try {
+        await this.model.create({
           title: data.title,
           description: data.description,
           price: data.price,
@@ -45,6 +46,11 @@ class ProductManager {
           status: data.status,
           category: data.category
         })
+        return "Producto agregado correctamente"
+      } catch (e) {
+        console.log('Error: ', e);
+        return "Error al agregar producto";
+      }
     }
 
     async updateProduct (id, data) {

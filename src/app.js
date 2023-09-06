@@ -4,14 +4,11 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const handlebars = require('express-handlebars')
-const socketServer = require('./utils/io')
 
 const viewsRouter = require('./routers/viewsRouter')
 const productsRouter = require('./routers/productRouter')
 const cartRouter = require('./routers/cartRouter')
 const sessionRouter = require('./routers/sessionRouter')
-
-
 
 const app = express()
 
@@ -41,8 +38,6 @@ app.use(session({
 
 const PORT = 8080
 const httpServer = app.listen(PORT, () => console.log(`Servidor Express escuchando en el puerto: ${PORT}`))
-
-const io = socketServer(httpServer)
 
 app.use('/', viewsRouter)
 app.use('/api/products', productsRouter)

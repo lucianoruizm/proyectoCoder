@@ -75,7 +75,7 @@ productsRouter.get('/:pid', async (req, res) => {
 productsRouter.post('/', async (req, res) => {
     const data = req.body
 
-    const postProduct = await productManager.addProduct(data)
+    const postProduct = await productManager.addProduct(data, io)
     
     if (!data) {
         return "El producto no ha podido agregarse"
@@ -96,7 +96,7 @@ productsRouter.put('/:pid', async (req, res) => {
 productsRouter.delete('/:pid', async (req, res) => {
     const productId = req.params.pid
     try {
-        const deleteProduct = await productManager.deleteProduct(productId)
+        const deleteProduct = await productManager.deleteProduct(productId, io)
         return res.json(deleteProduct)
     } catch (e) {
         return res.status(404).json({

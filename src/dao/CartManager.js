@@ -1,7 +1,5 @@
 const cartModel = require('./models/cartModels')
 const ProductManager = require('./ProductManager')
-const producSchema = require('./models/productModels')
-const mongoose = require('mongoose')
 
 const productManager = new ProductManager()
 
@@ -60,7 +58,7 @@ class CartManager {
         }
         const productInCart = cart.products.find(item => item.product._id.equals(productId))
         
-        if(!productInCart) { //{ _id: cartId }, $pull: { products: { _id: productObjectId } }},
+        if(!productInCart) {
           await this.model.updateOne({ _id: cartId }, { $push: { products: {product: productId, quantity: 1} }})
           return `Producto con ID ${productId} agregado al Cart con ID ${cartId}`
         }
@@ -140,39 +138,40 @@ class CartManager {
       }
     }
 
-    async updateQuantityProducts (cartId, data) {
+    async updateQuantityProducts (cartId, productId, quantity) {
       try {
         const cart = await this.getCartById(cartId)
-        console.log(data)
+        console.log(" || cart: ", cart)
+        console.log("quantity", quantity)
 
         if (!cart) {
           console.log('No se encuentra cart a actualizar con ID:', id)
           return `No se encuentra cart a actualizar con ID: ${id}`
         }
 
-        const productToUpdate = cart.products.find(
-          (product) => product.product === data.products[0].product
+        const product = await productManager.getProductById(productId)
+        
+        if (!product) {
+          console.log('No se encuentra el producto para agregar el carrito');
+          return 'No se encuentra el producto para agregar en el carrito';
+        }
+
+        const result = await this.model.updateOne(
+          {
+            _id: cartId,
+            'products.product': productId,
+          },
+          {
+            $set: { 'products.$.quantity': quantity}
+          }
         )
-
-        if (!productToUpdate) {
-          console.log('No se encuentra el producto en el carrito');
-          return 'No se encuentra el producto en el carrito';
+        
+        if (result.modified === 0) {
+          return res.status(404).json({ message: 'Cart o Producto no encontrado'})
         }
 
-        const quantityUpdated = {
-          _id: cart._id,
-          products: [
-            {
-              product: cart.products.product,
-              quantity: data.products.quantity,
-              _id: cart.products._id
-            }
-          ]
-        }
-
-        await this.model.updateOne({ _id: id}, quantityUpdated)
-        console.log('Cart actualizado correctamente con ID:', id, data)
-        return quantityUpdated
+        console.log('Cart actualizado correctamente con ID:', cartId, quantity)
+        return result
       }
       catch (e) {
         console.log('Error al actualizar el cart', e)
