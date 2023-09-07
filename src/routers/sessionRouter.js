@@ -11,7 +11,6 @@ sessionRouter.post('/register', async (req, res) => {
   try {
     const user = await userModel.create(req.body)
     console.log(user)
-    console.log(res.redirect('/login'))
     return res.redirect('/login')
 
   } catch(error) {
@@ -51,10 +50,8 @@ sessionRouter.post('/logout', async (req, res) => {
       console.log(error)
       return res.status(500).json({ error: "Error al cerrar sesion" })
     }
+    return res.redirect('/login')
   })
-
-  console.log("logout")
-  return res.redirect('/login')
 })
 
 module.exports = sessionRouter
