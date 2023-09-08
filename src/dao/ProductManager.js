@@ -20,10 +20,10 @@ class ProductManager {
       try {
         const product = await this.model.findById(id);
         
-        if (!product) {
-          console.log(`No hay producto con ID: ${id}`)
-          return false
-        }
+        // if (!product) {
+        //   console.log(`No hay producto con ID: ${id}`)
+        //   return product
+        // }
 
         console.log('Producto encontrado por ID:', id)
         return product

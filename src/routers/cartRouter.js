@@ -92,7 +92,7 @@ cartRouter.put('/:cid/products/:pid', async (req, res) => {
 cartRouter.delete('/:cid', async (req, res) => {
     const cartId = req.params.cid
     try {
-        const cleanCart = await cartManager.cleanCart(cartId)
+        const cleanCart = await cartManager.clearCart(cartId)
         return res.json(cleanCart)
     } catch (e) {
         return res.status(404).json({

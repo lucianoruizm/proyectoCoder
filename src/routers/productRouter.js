@@ -66,7 +66,8 @@ productsRouter.get('/realtimeproducts', async (req, res) => {
 productsRouter.get('/:pid', async (req, res) => {
     const productId = req.params.pid
     const getProductById = await productManager.getProductById(productId)
-    if (!getProductById) {
+    console.log(getProductById)
+    if (!getProductById || getProductById === null) {
         return (`El producto con el ID ${productId} no existe`)
     }
     return res.json(getProductById)
@@ -75,7 +76,7 @@ productsRouter.get('/:pid', async (req, res) => {
 productsRouter.post('/', async (req, res) => {
     const data = req.body
 
-    const postProduct = await productManager.addProduct(data, io)
+    const postProduct = await productManager.addProduct(data)
     
     if (!data) {
         return "El producto no ha podido agregarse"
@@ -96,7 +97,7 @@ productsRouter.put('/:pid', async (req, res) => {
 productsRouter.delete('/:pid', async (req, res) => {
     const productId = req.params.pid
     try {
-        const deleteProduct = await productManager.deleteProduct(productId, io)
+        const deleteProduct = await productManager.deleteProduct(productId)
         return res.json(deleteProduct)
     } catch (e) {
         return res.status(404).json({

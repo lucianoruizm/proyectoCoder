@@ -48,6 +48,7 @@ class CartManager {
       try {
         const cart = await this.model.findById(cartId);
         const productExist = await productManager.getProductById(productId)
+        console.log(productExist)
         
         if (!cart) {
           return `No se encuentra cart por ID: ${cartId}`
@@ -56,6 +57,7 @@ class CartManager {
         if (!productExist) {
           return "No se agrego producto al cart porque no existe"
         }
+
         const productInCart = cart.products.find(item => item.product._id.equals(productId))
         
         if(!productInCart) {
@@ -88,7 +90,7 @@ class CartManager {
         }
 
         if (!productExist) {
-          return "No se agrego producto al cart porque no existe"
+          return "No se elimino producto del cart porque no existe"
         }
         
         const productInCart = cart.products.find(item => item.product._id.equals(productId));
@@ -152,8 +154,8 @@ class CartManager {
         const product = await productManager.getProductById(productId)
         
         if (!product) {
-          console.log('No se encuentra el producto para agregar el carrito');
-          return 'No se encuentra el producto para agregar en el carrito';
+          console.log('No se encuentra el producto para actualizar del carrito');
+          return 'No se encuentra el producto para actualizar en el carrito';
         }
 
         const result = await this.model.updateOne(
@@ -179,13 +181,13 @@ class CartManager {
       }
     }
 
-    async cleanCart (cartId) {
+    async clearCart (cartId) {
       try {
         const cart = await this.getCartById(cartId)
 
         if (!cart) {
-          console.log('No se encuentra cart a actualizar con ID:', id)
-          return `No se encuentra cart a actualizar con ID: ${id}`
+          console.log('No se encuentra cart a actualizar con ID:', cartId)
+          return `No se encuentra cart a actualizar con ID: ${cartId}`
         }
 
         const cartUpdated = {
@@ -193,8 +195,8 @@ class CartManager {
           products: []
         }
 
-        await this.model.updateOne({ _id: id}, cartUpdated)
-        console.log('Cart actualizado correctamente con ID:', id, data)
+        await this.model.updateOne({ _id: cartId}, cartUpdated)
+        console.log('Cart actualizado correctamente con ID:', cartId)
         return cartUpdated
       }
       catch (e) {
