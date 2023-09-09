@@ -67,8 +67,8 @@ productsRouter.get('/:pid', async (req, res) => {
     const productId = req.params.pid
     const getProductById = await productManager.getProductById(productId)
     console.log(getProductById)
-    if (!getProductById || getProductById === null) {
-        return (`El producto con el ID ${productId} no existe`)
+    if (!getProductById) {
+        return res.json(`El producto con el ID ${productId} no existe`)
     }
     return res.json(getProductById)
 })
