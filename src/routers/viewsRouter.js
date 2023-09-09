@@ -9,6 +9,14 @@ const sessionMiddleware = (req, res, next) => {
     return next()
 }
 
+const isAdmin = (req, res, next) => {
+    if(req.session.user && req.session.user.admin) {
+        next()
+    } else {
+        res.redirect('/products')
+    }
+}
+
 viewsRouter.get('/register', sessionMiddleware, (req, res) => {
     try {
       return res.render('register')
@@ -76,8 +84,11 @@ viewsRouter.get('/products', (req, res, next) => {
         
 })
 
-viewsRouter.get('/realtimeproducts', async (req, res) => {
+viewsRouter.get('/realtimeproducts', isAdmin, async (req, res) => {
     try {
+        if (!req.session.user) {
+            return res.redirect('/login')
+        }
         const limit = req.query.limit
         const page = req.query.page
         const category = req.query.category || null

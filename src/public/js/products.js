@@ -1,33 +1,9 @@
-const socket = io()
-
-socket.on('nuevoProducto', (data) => {
-  console.log('Nuevo cliente conectado. POST')
-  const product = JSON.parse(data)
-
-  const productHTML = `
-  <tr>
-      <td>${product.id}</td>
-      <td>${product.title}</td>
-      <td>${product.price}</td>
-      <td>${product.stock}</td>
-      <td>${product.category}</td>
-  </tr>
-  `
-
-  const table = document.getElementById('productos')
-
-  table.innerHTML += productHTML
-
-})
-
-socket.on('eliminarProducto', (productId) => {
-  console.log('Nuevo cliente conectado. DELETE')
-
-  const table = document.getElementById('productos')
-  const row = table.querySelector(`tr[rowId="${parseInt(productId)}"]`)
-
-  if (row) {
-    row.remove()
-  }
-
-})
+const addToCart = async (productId) => {
+    console.log(productId)
+    const cartId = '64ea4f4893207f61409583a8'
+    try {
+      await axios.post(`http://localhost:8080/api/carts/${cartId}/product/${productId}`);
+    } catch (error) {
+      console.error(error);
+    }
+}

@@ -24,14 +24,4 @@ Email: {{user.email}}<br><br>
 <button onclick="logout()">Cerrar Sesion</button>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-const logout = async () => {
-  console.log("funcion logout")
-  try {
-    await axios.post(`http://localhost:8080/api/session/logout`);
-    window.location.href = '/login'
-  } catch (error) {
-    console.error(error);
-  }
-}
-</script>
+<script src="/js/logout.js"></script>
