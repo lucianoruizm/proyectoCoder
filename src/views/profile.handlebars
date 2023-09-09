@@ -1,12 +1,21 @@
+{{#unless user.admin}}
+  <nav>
+    <ul>
+      <li>
+        <a href="/products">Ir a PRODUCTS</a>
+        <a href="/cart/64ea4f4893207f61409583a8">Ir al CART</a>
+      </li>
+    </ul>
+  </nav>
+{{else}}
 <nav>
-  <ul>
-    <li>
-      <a href="/products">Ir a PRODUCTS</a>
-      <a href="/cart/64ea4f4893207f61409583a8">Ir al CART</a>
-    </li>
-  </ul>
-</nav>
-
+    <ul>
+      <li>
+        <a href="/realTimeProducts">Ir a GESTION DE PRODUCTOS</a>
+      </li>
+    </ul>
+  </nav>
+{{/unless}}
 Perfil de usuario
 
 <br><br>

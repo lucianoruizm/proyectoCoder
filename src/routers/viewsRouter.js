@@ -16,6 +16,13 @@ const isAdmin = (req, res, next) => {
         res.redirect('/products')
     }
 }
+const isUser = (req, res, next) => {
+    if(req.session.user && !req.session.user.admin) {
+        next()
+    } else {
+        console.log("second")
+    }
+}
 
 viewsRouter.get('/register', sessionMiddleware, (req, res) => {
     try {
@@ -43,7 +50,7 @@ viewsRouter.get('/profile', (req, res, next) => {
     return res.render('profile', { user })
 })
 
-viewsRouter.get('/products', (req, res, next) => {
+viewsRouter.get('/products', isUser, (req, res, next) => {
         if (!req.session.user) {
             return res.redirect('/login')
         }
@@ -124,7 +131,7 @@ viewsRouter.get('/realtimeproducts', isAdmin, async (req, res) => {
     }
 })
 
-viewsRouter.get('/cart/:cid', async (req, res) => {
+viewsRouter.get('/cart/:cid', isUser, async (req, res) => {
     try {
         const cartId = req.params.cid
         const response = await axios.get(`http://localhost:8080/api/carts/${cartId}`)
