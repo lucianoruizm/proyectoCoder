@@ -1,3 +1,12 @@
+<nav>
+  <ul>
+    <li>
+      <a href="/products">Ir a PRODUCTS</a>
+      <a href="/cart/64ea4f4893207f61409583a8">Ir al CART</a>
+    </li>
+  </ul>
+</nav>
+
 Perfil de usuario
 
 <br><br>
@@ -6,6 +15,11 @@ Nombre: {{user.name}}<br><br>
 Apellido: {{user.lastname}}<br><br>
 Edad: {{user.age}}<br><br>
 Email: {{user.email}}<br><br>
+{{#if user.admin}}
+  Rol: admin<br><br>
+{{else}}
+  Rol: user<br><br>
+{{/if}}
 
 <button onclick="logout()">Cerrar Sesion</button>
 
