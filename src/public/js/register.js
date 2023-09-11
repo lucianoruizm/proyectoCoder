@@ -22,6 +22,7 @@ registerForm.addEventListener('submit', async (event) => {
     registerForm.reset();
     window.location.href = '/login'
   } catch (error) {
-    console.error(error);
+    console.error("ERROR: ", error);
+    alert("Error, verifique su email y/o si el password es valido")
   }
 });

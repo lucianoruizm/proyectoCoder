@@ -1,5 +1,7 @@
 const express = require('express')
+const passport = require('passport')
 const userModel = require('../dao/models/userModel')
+const { createHash, isValidPassword } = require('../utils/passwordHash')
 
 const sessionRouter = express.Router()
 
@@ -11,11 +13,13 @@ sessionRouter.post('/register', async (req, res) => {
   try {
     const user = await userModel.create(req.body)
     console.log(user)
+    
     return res.redirect('/login')
-
   } catch(error) {
     console.log(error)
-    return error
+    return res.status(400).json({
+      error: 'Error de validacion'
+    })
   }
 })
 
@@ -28,7 +32,7 @@ sessionRouter.post('/login', async (req, res) => {
     })
   }
 
-  if (user.password !== req.body.password) {
+  if (!isValidPassword(req.body.password, user.password)) {
     return res.status(401).json({
       error: 'Datos incorrectos'
     })
@@ -52,6 +56,21 @@ sessionRouter.post('/logout', async (req, res) => {
     }
     return res.redirect('/login')
   })
+})
+
+sessionRouter.post('/recovery-password', async (req, res) => {
+  let user = await userModel.findOne({ email: req.body.email })
+
+  if (!user) {
+    return res.status(401).json({
+      error: 'El usuario no existe en el sistema'
+    })
+  }
+
+  const newPassword = createHash(req.body.password)
+  await userModel.updateOne({ email: user.email }, { password: newPassword })
+
+  return res.redirect('/login')
 })
 
 module.exports = sessionRouter

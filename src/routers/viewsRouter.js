@@ -40,6 +40,10 @@ viewsRouter.get('/login', sessionMiddleware, (req, res) => {
   }
 })
 
+viewsRouter.get('/recovery-password', sessionMiddleware, (req, res) => {
+    return res.render('recovery-password')
+})
+
 viewsRouter.get('/profile', (req, res, next) => {
   if (!req.session.user) {
     return res.redirect('/login')

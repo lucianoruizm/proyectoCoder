@@ -4,6 +4,9 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const handlebars = require('express-handlebars')
+const passport = require('passport')
+
+const initializePassport = require('./config/passport.config')
 
 const viewsRouter = require('./routers/viewsRouter')
 const productsRouter = require('./routers/productRouter')
@@ -35,6 +38,10 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 const PORT = 8080
 const httpServer = app.listen(PORT, () => console.log(`Servidor Express escuchando en el puerto: ${PORT}`))
