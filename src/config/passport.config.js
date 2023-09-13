@@ -1,7 +1,7 @@
 const passport = require('passport')
 const passportLocal = require('passport-local')
 const userModel = require('../dao/models/userModel')
-const { createHash, isValidPassport, isValidPassword } = require('../utils/passwordHash')
+const { createHash, isValidPassword } = require('../utils/passwordHash')
 
 const LocalStrategy = passportLocal.Strategy
 
@@ -10,7 +10,7 @@ const initializePassport = () => {
         { passReqToCallback: true, usernameField: 'email' },
         async (req, username, password, done) => {
             try {
-                let user = await userModel.findOne({ email: username })
+                const user = await userModel.findOne({ email: username })
 
                 if (user) {
                     console.log('El usuario ya existe')
@@ -36,20 +36,20 @@ const initializePassport = () => {
             try {
                 let user = await userModel.findOne({ email: email })
 
-                if (!user) {
+                 if (!user) {
                     console.log('El usuario no existe en el sistema')
-                    return done(null, false, { message: 'El usuario no existe en el sistema'})
-                }
-
-                if (!isValidPassword(password, user.password)) {
+                    return done(null, false, { message: 'El usuario no existe en el sistema' })
+                 }
+             
+                 if (!isValidPassword(password, user.password)) {
                     return done(null, false, { message: 'Datos incorrectos' })
-                }
-
-                user = user.toObject()
-
-                delete user.password
-
-                done(null, user)
+                 }
+             
+                 user = user.toObject()
+             
+                 delete user.password
+             
+                 return done(null, user)
             } catch (e) {
                 return done(e)
             }
@@ -58,13 +58,13 @@ const initializePassport = () => {
 
     passport.serializeUser((user, done) => {
         console.log('serializeUser')
-        done(null, user._id)
+        return done(null, user._id)
       })
     
     passport.deserializeUser(async (id, done) => {
       console.log('deserializeUser')
       const user = await userModel.findById(id)
-      done(null, user)
+      return done(null, user)
     })
 }
 

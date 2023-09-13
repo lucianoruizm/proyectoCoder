@@ -5,6 +5,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const handlebars = require('express-handlebars')
 const passport = require('passport')
+const flash = require('connect-flash')
 
 const initializePassport = require('./config/passport.config')
 
@@ -28,6 +29,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(cookieParser('secretkey'))
+app.use(flash())
 
 app.use(session({
     store: MongoStore.create({

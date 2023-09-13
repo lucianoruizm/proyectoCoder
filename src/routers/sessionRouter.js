@@ -11,8 +11,21 @@ sessionRouter.get('/', (req, res) => {
 
 sessionRouter.post('/register', async (req, res) => {
   try {
-    const user = await userModel.create(req.body)
-    console.log(user)
+
+    let user = await userModel.findOne({ email: req.body.email })
+  
+    if (user) {
+      console.log('Usuario ya existe')
+      return res.status(401).json({
+        error: 'Error al crear usuario'
+      })
+    }
+
+    const body = req.body
+    body.password = createHash(body.password)
+    console.log({ body })
+    
+    await userModel.create(body)
     
     return res.redirect('/login')
   } catch(error) {
