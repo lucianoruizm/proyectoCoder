@@ -9,56 +9,20 @@ sessionRouter.get('/', (req, res) => {
   return res.json(req.session)
 })
 
-sessionRouter.post('/register', async (req, res) => {
-  try {
-
-    let user = await userModel.findOne({ email: req.body.email })
-  
-    if (user) {
-      console.log('Usuario ya existe')
-      return res.status(401).json({
-        error: 'Error al crear usuario'
-      })
-    }
-
-    const body = req.body
-    body.password = createHash(body.password)
-    console.log({ body })
-    
-    await userModel.create(body)
-    
-    return res.redirect('/login')
-  } catch(error) {
-    console.log(error)
-    return res.status(400).json({
-      error: 'Error de validacion'
-    })
-  }
+sessionRouter.post('/register', 
+  passport.authenticate('register'),
+  async (req, res) => {
+    console.log(res.json(req.user))
 })
 
-sessionRouter.post('/login', async (req, res) => {
-  let user = await userModel.findOne({ email: req.body.email })
-
-  if (!user) {
-    return res.status(401).json({
-      error: 'El usuario no existe en el sistema'
+sessionRouter.post('/login', 
+  passport.authenticate('login'),
+  async (req, res) => {
+    console.log({
+      user: req.user,
+      session: req.session
     })
-  }
-
-  if (!isValidPassword(req.body.password, user.password)) {
-    return res.status(401).json({
-      error: 'Datos incorrectos'
-    })
-  }
-
-  user = user.toObject()
-
-  delete user.password
-
-  req.session.user = user
-
-  console.log("login", user)
-  return res.redirect('/products')
+    return res.json(req.user)
 })
 
 sessionRouter.post('/logout', async (req, res) => {

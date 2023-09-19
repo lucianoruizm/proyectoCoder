@@ -12,11 +12,13 @@ loginForm.addEventListener('submit', async (event) => {
 
   try {
     const response = await axios.post('http://localhost:8080/api/session/login', userData);
-    alert("Inicio de sesion exitoso")
+    //alert("Inicio de sesion exitoso")
+    console.log("RESPONSE: ", response.status)
     loginForm.reset();
     window.location.href = '/products'
   } catch (error) {
     alert("ERROR")
+    console.log("ERROR LOGIN")
     console.error(error);
   }
 });

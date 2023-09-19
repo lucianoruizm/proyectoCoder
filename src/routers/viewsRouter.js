@@ -3,21 +3,23 @@ const axios = require('axios')
 const viewsRouter = express.Router()
 
 const sessionMiddleware = (req, res, next) => {
-    if (req.session.user) {
+    if (req.user) {
+        console.log("sessionMiddleware entro al if req.session.user")
         return res.redirect('/products')
     }
+    console.log("sessionMiddleware no entro al if")
     return next()
 }
 
 const isAdmin = (req, res, next) => {
-    if(req.session.user && req.session.user.admin) {
+    if(req.user && req.user.admin) {
         next()
     } else {
         res.redirect('/products')
     }
 }
 const isUser = (req, res, next) => {
-    if(req.session.user && !req.session.user.admin) {
+    if(req.user && !req.user.admin) {
         next()
     } else {
         res.redirect('/realTimeProducts')
@@ -26,16 +28,20 @@ const isUser = (req, res, next) => {
 
 viewsRouter.get('/register', sessionMiddleware, (req, res) => {
     try {
+      console.log("REGISTER")
       return res.render('register')
     } catch (error) {
+      console.log("ERROR REGISTER")
       return error
     }
 })
   
 viewsRouter.get('/login', sessionMiddleware, (req, res) => {
   try {
+    console.log("LOGIN")
     return res.render('login')
   } catch (error) {
+    console.log("ERROR LOGIN")
     return error
   }
 })
@@ -45,20 +51,25 @@ viewsRouter.get('/recovery-password', sessionMiddleware, (req, res) => {
 })
 
 viewsRouter.get('/profile', (req, res, next) => {
-  if (!req.session.user) {
+  if (!req.user) {
     return res.redirect('/login')
   }
     return next()
   }, (req, res) => {
-    const user = req.session.user
+    let user = req.user
+    console.log("PROFILE: ", user)
+    user = user.toObject()
     return res.render('profile', { user })
 })
 
 viewsRouter.get('/products', isUser, (req, res, next) => {
-        if (!req.session.user) {
+        console.log("SESSION EN /PRODUCTS", req.session)
+        console.log("SESSION USER EN /PRODUCTS", req.user)
+        if (!req.user) {
+            console.log("PRODUCTS REDIRECT TO LOGIN")
             return res.redirect('/login')
         }
-
+        console.log("IN PRODUCTS")
         return next()
         }, async (req, res) => {
 
@@ -96,8 +107,10 @@ viewsRouter.get('/products', isUser, (req, res, next) => {
 })
 
 viewsRouter.get('/realtimeproducts', isAdmin, async (req, res) => {
+    console.log("SESSION USER EN /REALTIMEPRODUCTS", req.session.user)
     try {
-        if (!req.session.user) {
+        if (!req.user) {
+            console.log("REALTIMEPRODUCTS REDIRECT TO LOGIN")
             return res.redirect('/login')
         }
         const limit = req.query.limit
@@ -135,7 +148,7 @@ viewsRouter.get('/realtimeproducts', isAdmin, async (req, res) => {
     }
 })
 
-viewsRouter.get('/cart/:cid', isUser, async (req, res) => {
+viewsRouter.get('/cart/:cid', async (req, res) => {
     try {
         const cartId = req.params.cid
         const response = await axios.get(`http://localhost:8080/api/carts/${cartId}`)

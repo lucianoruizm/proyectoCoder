@@ -24,7 +24,7 @@ productForm.addEventListener('submit', async (event) => {
 
   try {
     await axios.post('http://localhost:8080/api/products', productData);
-    
+    alert("Producto Agregado")
     productForm.reset();
   } catch (error) {
     console.error(error);
@@ -40,7 +40,7 @@ productFormDelete.addEventListener('submit', async (event) => {
 
   try {
     await axios.delete(`http://localhost:8080/api/products/${idProduct}`);
-    
+    alert("Producto Eliminado")
     productFormDelete.reset();
   } catch (error) {
     console.error(error);
@@ -78,7 +78,7 @@ productFormEdit.addEventListener('submit', async (event) => {
 
   try {
     await axios.put(`http://localhost:8080/api/products/${idProduct}`, productUpdated);
-    
+    alert("Producto Editado")
     productFormEdit.reset();
   } catch (error) {
     console.log(error);

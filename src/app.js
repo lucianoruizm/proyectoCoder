@@ -1,11 +1,10 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
+const passport = require('passport')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const handlebars = require('express-handlebars')
-const passport = require('passport')
-const flash = require('connect-flash')
 
 const initializePassport = require('./config/passport.config')
 
@@ -29,19 +28,19 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(cookieParser('secretkey'))
-app.use(flash())
+initializePassport(passport)
+
 
 app.use(session({
     store: MongoStore.create({
         mongoUrl: MONGODB_CONNECT,
-        tlt: 15
+        ttl: 5 * 60
     }),
-    secret: 'secretSessoin',
+    secret: 'secretSession',
     resave: true,
     saveUninitialized: true
 }))
 
-initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
