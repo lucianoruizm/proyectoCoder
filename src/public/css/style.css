@@ -52,6 +52,19 @@ h2 {
 .loginBtn {
     margin-top: 20px;
     cursor: pointer;
+    background-color: #242222;
+    color: #c8cfda;
+}
+
+.loginGithubBtn {
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #242222;
+    color: #c8cfda;
+}
+
+.loginBtn:hover, .loginGithubBtn:hover {
+    background-color: #494949;
 }
 
 .btnRegisterContainer {

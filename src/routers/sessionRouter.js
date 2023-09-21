@@ -25,6 +25,14 @@ sessionRouter.post('/login',
     return res.json(req.user)
 })
 
+sessionRouter.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {
+
+})
+
+sessionRouter.get('/github-callback', passport.authenticate('github', { failureRedirect: '/login'}), async (req, res) => {
+  return res.redirect('/profile')
+})
+
 sessionRouter.post('/logout', async (req, res) => {
   req.session.destroy((error) => {
     if (error) {
