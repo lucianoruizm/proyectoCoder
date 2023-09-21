@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
 const session = require('express-session')
+const dotenv = require('dotenv')
+const configFn = require('./config')
 const MongoStore = require('connect-mongo')
 const handlebars = require('express-handlebars')
 
@@ -14,12 +16,15 @@ const cartRouter = require('./routers/cartRouter')
 const sessionRouter = require('./routers/sessionRouter')
 
 const app = express()
+dotenv.config()
+
+const config = configFn()
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
-const MONGODB_CONNECT = 'mongodb+srv://gordon_free3:GreciasenEgal789@cluster0.nfgcx.gcp.mongodb.net/ecommerce?retryWrites=true&w=majority'
+const MONGODB_CONNECT = `mongodb+srv://${config.db_user}:${config.db_password}@${config.db_host}/${config.db_name}?retryWrites=true&w=majority`
 mongoose.connect(MONGODB_CONNECT)
 .then(()=>console.log('conexion DB'))
 .catch((error) => console.log(error))
@@ -29,7 +34,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(cookieParser('secretkey'))
 initializePassport(passport)
-
 
 app.use(session({
     store: MongoStore.create({
@@ -44,8 +48,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-const PORT = 8080
-const httpServer = app.listen(PORT, () => console.log(`Servidor Express escuchando en el puerto: ${PORT}`))
+const httpServer = app.listen(config.PORT, () => console.log(`Servidor Express escuchando en el puerto: ${config.PORT}`))
 
 app.use('/', viewsRouter)
 app.use('/api/products', productsRouter)
