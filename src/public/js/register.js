@@ -17,7 +17,8 @@ registerForm.addEventListener('submit', async (event) => {
   };
 
   try {
-    await axios.post('http://localhost:8080/api/session/register', userData);
+    const response = await axios.post('http://localhost:8080/api/session/register', userData);
+    console.log("DATOS CON LOS CUALES SE REGISTRO: ", response.data)
     alert("Registro exitoso")
     registerForm.reset();
     window.location.href = '/login'

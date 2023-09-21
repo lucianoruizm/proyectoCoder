@@ -4,7 +4,7 @@ const viewsRouter = express.Router()
 
 const sessionMiddleware = (req, res, next) => {
     if (req.user) {
-        console.log("sessionMiddleware entro al if req.session.user")
+        console.log("sessionMiddleware entro al if de req.user")
         return res.redirect('/products')
     }
     console.log("sessionMiddleware no entro al if")

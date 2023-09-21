@@ -12,7 +12,7 @@ sessionRouter.get('/', (req, res) => {
 sessionRouter.post('/register', 
   passport.authenticate('register'),
   async (req, res) => {
-    console.log(res.json(req.user))
+    return res.redirect('/login');
 })
 
 sessionRouter.post('/login', 
