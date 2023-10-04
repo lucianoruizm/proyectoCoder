@@ -1,16 +1,20 @@
 const socket = io()
 
 socket.on('nuevoProducto', (data) => {
-  console.log('Nuevo cliente conectado. POST')
-  const product = JSON.parse(data)
+  console.log('Cliente. POST')
+  const product = data
+  console.log("*** socket new product: ***", product)
 
   const productHTML = `
   <tr>
-      <td>${product.id}</td>
+      <td>${product._id}</td>
       <td>${product.title}</td>
+      <td>${product.description}</td>
       <td>${product.price}</td>
       <td>${product.stock}</td>
       <td>${product.category}</td>
+      <td>${product.status}</td>
+      <td>${product.code}</td>
   </tr>
   `
 
@@ -21,13 +25,40 @@ socket.on('nuevoProducto', (data) => {
 })
 
 socket.on('eliminarProducto', (productId) => {
-  console.log('Nuevo cliente conectado. DELETE')
+  console.log('Cliente. DELETE', productId)
 
   const table = document.getElementById('productos')
-  const row = table.querySelector(`tr[rowId="${parseInt(productId)}"]`)
-
+  const row = table.querySelector(`tr[rowId="${productId}"]`)
   if (row) {
+    console.log("remove row", row)
     row.remove()
   }
 
+})
+
+socket.on('editarProducto', (data) => {
+  console.log('Cliente. PUT')
+  const product = data
+  console.log("id del producto a actualizar: ", product._id)
+  console.log("*** socket updated product: ***", product)
+
+  const table = document.getElementById('productos')
+
+  const row = table.querySelector(`tr[rowId="${product._id}"]`)
+
+  if (row) {
+    console.log("updated row", row)
+    row.innerHTML = `
+    <tr>
+        <td>${product._id}</td>
+        <td>${product.title}</td>
+        <td>${product.description}</td>
+        <td>${product.price}</td>
+        <td>${product.stock}</td>
+        <td>${product.category}</td>
+        <td>${product.status}</td>
+        <td>${product.code}</td>
+    </tr>
+    `
+  }
 })

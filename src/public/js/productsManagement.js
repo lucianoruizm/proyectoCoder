@@ -1,3 +1,5 @@
+
+
 const productForm = document.getElementById('productForm');
 productForm.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -23,17 +25,18 @@ productForm.addEventListener('submit', async (event) => {
   };
 
   try {
-    await axios.post('http://localhost:8080/api/products', productData);
+    await axios.post('http://localhost:8080/api/products', productData)
     alert("Producto Agregado")
-    productForm.reset();
+    socket.emit('nuevoProducto', JSON.stringify(productData))
+    productForm.reset()
   } catch (error) {
     console.error(error);
   }
 });
 
-const productFormDelete = document.getElementById('productFormDelete');
+const productFormDelete = document.getElementById('productFormDelete')
 productFormDelete.addEventListener('submit', async (event) => {
-  event.preventDefault();
+  event.preventDefault()
 
   const idProduct = document.querySelector('input[name="id"]').value;
   console.log(idProduct)
@@ -41,9 +44,10 @@ productFormDelete.addEventListener('submit', async (event) => {
   try {
     await axios.delete(`http://localhost:8080/api/products/${idProduct}`);
     alert("Producto Eliminado")
-    productFormDelete.reset();
+    socket.emit('eliminarProducto', idProduct)
+    productFormDelete.reset()
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 });
 
@@ -64,6 +68,7 @@ productFormEdit.addEventListener('submit', async (event) => {
   const category = document.querySelector('input[name="categoryEdit"]').value;
 
   const productUpdated = {
+    _id: idProduct,
     title,
     description,
     thumbnail,
@@ -79,6 +84,7 @@ productFormEdit.addEventListener('submit', async (event) => {
   try {
     await axios.put(`http://localhost:8080/api/products/${idProduct}`, productUpdated);
     alert("Producto Editado")
+    socket.emit('editarProducto', JSON.stringify(productUpdated))
     productFormEdit.reset();
   } catch (error) {
     console.log(error);

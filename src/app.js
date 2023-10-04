@@ -7,6 +7,7 @@ const dotenv = require('dotenv')
 const configFn = require('./config')
 const MongoStore = require('connect-mongo')
 const handlebars = require('express-handlebars')
+const { Server } = require('socket.io')
 
 const initializePassport = require('./config/passport.config')
 
@@ -16,8 +17,8 @@ const cartRouter = require('./routers/cartRouter')
 const sessionRouter = require('./routers/sessionRouter')
 
 const app = express()
-dotenv.config()
 
+dotenv.config()
 const config = configFn()
 
 app.engine('handlebars', handlebars.engine())
@@ -49,8 +50,30 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 const httpServer = app.listen(config.PORT, () => console.log(`Servidor Express escuchando en el puerto: ${config.PORT}`))
+const io = new Server(httpServer)
 
 app.use('/', viewsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartRouter)
 app.use('/api/session', sessionRouter)
+
+io.on('connection', (socket) => {
+    console.log('Nuevo cliente conectado a WebSocket.');
+  
+    socket.on('nuevoProducto', (data) => {
+      const product = JSON.parse(data);
+      io.emit('nuevoProducto', product);
+    });
+  
+    socket.on('eliminarProducto', (productId) => {
+      io.emit('eliminarProducto', productId);
+    });
+
+    socket.on('editarProducto', (data) => {
+      io.emit('editarProducto', JSON.parse(data));
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('Cliente desconectado.');
+    });
+});

@@ -22,7 +22,7 @@ const isUser = (req, res, next) => {
     if(req.user && !req.user.admin) {
         next()
     } else {
-        res.redirect('/realTimeProducts')
+        res.redirect('/productsManagement')
     }
 }
 
@@ -106,11 +106,11 @@ viewsRouter.get('/products', isUser, (req, res, next) => {
         
 })
 
-viewsRouter.get('/realtimeproducts', isAdmin, async (req, res) => {
-    console.log("SESSION USER EN /REALTIMEPRODUCTS", req.session.user)
+viewsRouter.get('/productsManagement', isAdmin, async (req, res) => {
+    console.log("SESSION USER EN /productsManagement", req.user)
     try {
         if (!req.user) {
-            console.log("REALTIMEPRODUCTS REDIRECT TO LOGIN")
+            console.log("productsManagement REDIRECT TO LOGIN")
             return res.redirect('/login')
         }
         const limit = req.query.limit
@@ -119,16 +119,16 @@ viewsRouter.get('/realtimeproducts', isAdmin, async (req, res) => {
         const status = req.query.status || null
         const sort = req.query.sort
 
-        let url = `http://localhost:8080/api/products/realtimeproducts?limit=${limit}&page=${page}&sort=${sort}`
+        let url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&sort=${sort}`
         
         if (category) {
-            url = `http://localhost:8080/api/products/realtimeproducts?limit=${limit}&page=${page}&category=${category}&sort=${sort}`
+            url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&category=${category}&sort=${sort}`
         }
         if (status !== null) {
-            url = `http://localhost:8080/api/products/realtimeproducts?limit=${limit}&page=${page}&status=${status}&sort=${sort}`
+            url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&status=${status}&sort=${sort}`
         }
         if (category & status) {
-            url = `http://localhost:8080/api/products/realtimeproducts?limit=${limit}&page=${page}&category=${category}&status=${status}&sort=${sort}`
+            url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&category=${category}&status=${status}&sort=${sort}`
         }
 
         const response = await axios.get(url)
@@ -141,7 +141,7 @@ viewsRouter.get('/realtimeproducts', isAdmin, async (req, res) => {
             return res.render('errorView', { message })
         }
 
-        res.render('realtimeproducts', { products })
+        res.render('productsManagement', { products })
     } catch (error) {
         console.log(error)
         res.render('products', { error: 'Error al obtener los productos'})

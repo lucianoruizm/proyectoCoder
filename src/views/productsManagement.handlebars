@@ -5,7 +5,7 @@
     </ul>
   </nav>
 </header>
-<h1>Real Time Products</h1>
+<h1>PRODUCTS MANAGEMENT</h1>
 <table id="productos">
   <tr class="headers">
     <th>ID</th>
@@ -34,14 +34,15 @@
   <h4>Pagina: {{products.page}} de {{products.totalPages}}</h4>
   <div class="prevNextPageContainer">
     {{#if products.hasPrevPage }}
-      <a href="/realtimeproducts?page={{products.prevPage}}">Página previa</a>
+      <a href="/productsManagement?page={{products.prevPage}}">Página previa</a>
     {{/if}}
     {{#if products.hasNextPage }}
-      <a href="/realtimeproducts?page={{products.nextPage}}">Página siguiente</a>
+      <a href="/productsManagement?page={{products.nextPage}}">Página siguiente</a>
     {{/if}}
   </div>
 </div>
 <div class="formsContainer">
+  
   <form id="productForm">
       <h3>AGREGAR PRODUCTO</h3>
       <label for="title" >Title:</label><input type="text" name="title"><br>
@@ -61,11 +62,13 @@
   
       <input class="btn" type="submit" value="Enviar">
   </form>
+
   <form id="productFormDelete">
       <h3>ELIMINAR PRODUCTO</h3>
       <label for="id" >INGRESAR ID DE PRODUCTO A ELIMINAR:</label><input type="text" name="id">
       <input class="btn" type="submit" value="Enviar">
   </form>
+
   <form id="productFormEdit">
       <h3>EDITAR PRODUCTO</h3>
       <label for="idEdit" >INGRESAR ID DE PRODUCTO A EDITAR:</label><input type="text" name="idEdit">
@@ -87,7 +90,7 @@
   </form>
 </div>
 
-{{!-- <script src="/socket.io/socket.io.js"></script> --}}
-{{!-- <script src="/js/productsSocket.js"></script> --}}
-<script src="/js/realTimeProducts.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/productsSocket.js"></script>
+<script src="/js/productsManagement.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
