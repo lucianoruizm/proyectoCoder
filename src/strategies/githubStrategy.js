@@ -1,5 +1,6 @@
 const GitHubStrategy = require('passport-github2')
 const userModel = require('../dao/models/userModel')
+const { generateToken } = require('../utils/jwt')
 
 const gitHubStrategy = new GitHubStrategy({
   clientID: 'Iv1.ae18f720827127f6',
@@ -8,7 +9,7 @@ const gitHubStrategy = new GitHubStrategy({
   }, async (accessToken, refreshToken, profile, done) => {
   
     try {
-      const user = await userModel.findOne({ email: profile._json.login })
+      let user = await userModel.findOne({ email: profile._json.login })
   
       if (user) {
         console.log('Usuario ya existe')
@@ -19,8 +20,14 @@ const gitHubStrategy = new GitHubStrategy({
         email: profile._json.login,
         name: profile._json.name
       })
-
-      return done(null, newUser)
+      
+      const token = generateToken(newUser)
+      console.log({ token })
+      return done(null, {
+        ...newUser,
+        access_token: token
+      })
+      //return done(null, newUser)
     } catch (e) {
       return done(e)
     }
