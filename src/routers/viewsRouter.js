@@ -1,60 +1,13 @@
 const express = require('express')
 const axios = require('axios')
 const viewsRouter = express.Router()
-const { verifyToken } = require('../utils/jwt')
+const { authMiddleware, isAdmin, isUser, isLoggedIn } = require('../middlewares/auth')
 
-// MIDDLEWATE USANDO SESSION
-// const sessionMiddleware = (req, res, next) => {
-//     if (req.user) {
-//         console.log("sessionMiddleware entro al if de req.user")
-//         return res.redirect('/products')
-//     }
-//     console.log("sessionMiddleware no entro al if")
-//     return next()
-// }
 
-// MIDDLEWARE USANDO JWT
-const authMiddleware = async (req, res, next) => {
-    const token = req.cookies.authToken
-    console.log("cookies token: ", token)
-  
-    if (!token) {
-      return res.status(401).json({
-        error: 'Necesitas enviar un token de acceso'
-      })
+viewsRouter.get('/register', isLoggedIn, (req, res) => {
+    if (res.user) {
+      return 
     }
-  
-    try {
-      const payload = await verifyToken(token)
-      console.log("payload en authMiddleware: ", payload)
-    } catch (e) {
-      return res.status(401).json({
-        error: 'Token de acceso invalido'
-      })
-    }
-    return next()
-}
-
-// MIDDLEWARES ROLES (PODRIA IMPLEMENTARSE DE UNA FORMA MEJOR)
-const isAdmin = (req, res, next) => {
-    if(req.user && req.user.admin) {
-        console.log("Is ADMIN")
-        next()
-    } else {
-        res.redirect('/products')
-    }
-}
-const isUser = (req, res, next) => {
-    if(req.user && !req.user.admin) {
-        console.log("Is USER")
-        next()
-    } else {
-        res.redirect('/productsManagement')
-    }
-}
-
-// No deberia permitir ingresar si no se inicio sesion
-viewsRouter.get('/register', (req, res) => {
     try {
       console.log("REGISTER")
       return res.render('register')
@@ -64,8 +17,7 @@ viewsRouter.get('/register', (req, res) => {
     }
 })
 
-// si el usuario ya inicio sesion no se debe permitir entrar a login
-viewsRouter.get('/login', (req, res) => {
+viewsRouter.get('/', isLoggedIn, (req, res) => {
   try {
     console.log("LOGIN")
     return res.render('login')
@@ -75,14 +27,13 @@ viewsRouter.get('/login', (req, res) => {
   }
 })
 
-// igual que register si la sesion ya existe no se debe permitir el ingreso
-viewsRouter.get('/recovery-password', (req, res) => {
+viewsRouter.get('/recovery-password', isLoggedIn, (req, res) => {
     return res.render('recovery-password')
 })
 
 viewsRouter.get('/profile', authMiddleware, (req, res, next) => {
   if (!req.user) {
-    return res.redirect('/login')
+    return res.redirect('/')
   }
     return next()
   }, (req, res) => {
@@ -92,10 +43,10 @@ viewsRouter.get('/profile', authMiddleware, (req, res, next) => {
     return res.render('profile', { user })
 })
 
-viewsRouter.get('/products', isUser, (req, res, next) => {
+viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
         if (!req.user) {
             console.log("PRODUCTS REDIRECT TO LOGIN")
-            return res.redirect('/login')
+            return res.redirect('/')
         }
         console.log("IN PRODUCTS")
         return next()
@@ -119,7 +70,12 @@ viewsRouter.get('/products', isUser, (req, res, next) => {
                 url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&category=${category}&status=${status}&sort=${sort}`
             }
     
-            const response = await axios.get(url)
+            const token = req.cookies.authToken;
+            const response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
     
             const products = response.data
     
@@ -134,11 +90,11 @@ viewsRouter.get('/products', isUser, (req, res, next) => {
         
 })
 
-viewsRouter.get('/productsManagement', isAdmin, async (req, res) => {
+viewsRouter.get('/productsManagement', isAdmin, authMiddleware, async (req, res) => {
     try {
         if (!req.user) {
             console.log("productsManagement REDIRECT TO LOGIN")
-            return res.redirect('/login')
+            return res.redirect('/')
         }
         const limit = req.query.limit
         const page = req.query.page
@@ -175,7 +131,7 @@ viewsRouter.get('/productsManagement', isAdmin, async (req, res) => {
     }
 })
 
-viewsRouter.get('/cart/:cid', isUser, async (req, res) => {
+viewsRouter.get('/cart/:cid', isUser, authMiddleware, async (req, res) => {
     try {
         const cartId = req.params.cid
         const response = await axios.get(`http://localhost:8080/api/carts/${cartId}`)

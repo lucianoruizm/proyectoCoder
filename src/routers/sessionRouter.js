@@ -1,7 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const userModel = require('../dao/models/userModel')
-const { createHash, isValidPassword } = require('../utils/passwordHash')
+const { createHash } = require('../utils/passwordHash')
 const { generateToken } = require('../utils/jwt')
 
 const sessionRouter = express.Router()
@@ -10,14 +10,13 @@ sessionRouter.get('/', (req, res) => {
   return res.json(req.session)
 })
 
-// da error al registrar usuario pero igual es registrado
 sessionRouter.post('/register', 
   passport.authenticate('register'),
   // async (req, res) => {
   //   return res.redirect('/login')
   //}
   async (req, res) => {
-    return res.redirect('/login')
+    return res.redirect('/')
   }
 )
 
@@ -53,7 +52,6 @@ sessionRouter.get('/github-callback', passport.authenticate('github', { failureR
   }).redirect('/profile')
 })
 
-// al implementar JWT se debe quitar el token?
 sessionRouter.post('/logout', async (req, res) => {
   res.clearCookie('authToken')
   req.session.destroy((error) => {
@@ -61,7 +59,7 @@ sessionRouter.post('/logout', async (req, res) => {
       console.log(error)
       return res.status(500).json({ error: "Error al cerrar sesion" })
     }
-    return res.redirect('/login')
+    return res.redirect('/')
   })
 })
 
@@ -77,7 +75,7 @@ sessionRouter.post('/recovery-password', async (req, res) => {
   const newPassword = createHash(req.body.password)
   await userModel.updateOne({ email: user.email }, { password: newPassword })
 
-  return res.redirect('/login')
+  return res.redirect('/')
 })
 
 const passportCall = (strategy) => {
