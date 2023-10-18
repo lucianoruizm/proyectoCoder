@@ -100,6 +100,19 @@ class CartsController {
             })
         }
     }
+
+    buyProducts = async (req, res) => {
+        const listProducts = req.body.products
+        console.log("este", listProducts)
+        try {
+            const generateTicket = await this.manager.generateTicket(listProducts)
+            res.status(200).json({ message: 'Compra exitosa', ticket: generateTicket , products: listProducts });
+        } catch (e) {
+            return res.status(404).json({
+                message: e.message
+            })
+        }
+    }
 }
 
 module.exports = CartsController

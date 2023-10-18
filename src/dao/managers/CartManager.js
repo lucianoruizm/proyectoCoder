@@ -1,4 +1,5 @@
 const cartModel = require('../models/cartModels')
+const ticketModel = require('../models/ticketModel')
 const ProductManager = require('./ProductManager')
 
 const productManager = new ProductManager()
@@ -6,6 +7,7 @@ const productManager = new ProductManager()
 class CartManager {
     constructor() {
         this.model = cartModel
+        this.modelTicket = ticketModel
     }
 
     async getCarts () {
@@ -202,6 +204,27 @@ class CartManager {
       catch (e) {
         console.log('Error al actualizar el cart', e)
         return `Error al actualizar el cart: ${e}`
+      }
+    }
+
+    async generateTicket (listProducts) {
+      try {
+        if (!listProducts) {
+          console.log('No se encuentran productos a comprar')
+          return 'No se encuentran productos a comprar'
+        }
+        const ticket = await this.modelTicket.create({
+          code: "asd",
+          purchase_datetime: "asd123",
+          amount: 555,
+          purchaser: "asdasd123"
+        })
+        console.log("Ticket:", ticket)
+        return ticket
+      }
+      catch (e) {
+        console.log('Error al comprar producto/s', e)
+        return `Error al comprar producto/s: ${e}`
       }
     }
 }
