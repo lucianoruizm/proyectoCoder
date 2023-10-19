@@ -4,7 +4,7 @@ const viewsRouter = express.Router()
 const { authMiddleware, isAdmin, isUser, isLoggedIn } = require('../middlewares/auth')
 
 
-viewsRouter.get('/register', isLoggedIn, (req, res) => {
+viewsRouter.get('/register', (req, res) => {
     if (res.user) {
       return 
     }
@@ -17,7 +17,7 @@ viewsRouter.get('/register', isLoggedIn, (req, res) => {
     }
 })
 
-viewsRouter.get('/', isLoggedIn, (req, res) => {
+viewsRouter.get('/', (req, res) => {
   try {
     console.log("LOGIN")
     return res.render('login')
@@ -48,7 +48,8 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
             console.log("PRODUCTS REDIRECT TO LOGIN")
             return res.redirect('/')
         }
-        console.log("IN PRODUCTS")
+        console.log("IN PRODUCTS cartID del USER: ", req.user.cartId)
+        
         return next()
         }, async (req, res) => {
 
@@ -57,6 +58,9 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
             const category = req.query.category || null
             const status = req.query.status || null
             const sort = req.query.sort
+
+            const cartId = req.user.cartId
+            console.log("ASYNC IN PRODUCTS cartID del USER: ", req.user.cartId)
     
             let url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&sort=${sort}`
             
@@ -86,7 +90,7 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
                 return res.render('errorView', { message })
             }
     
-            res.render('products', { products })
+            res.render('products', { products, cartId })
         
 })
 

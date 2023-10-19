@@ -11,12 +11,4 @@ const cartsSchema = mongoose.Schema({
     ]
 })
 
-// Populate
-// const cartsSchema = mongoose.Schema({
-//   products: [{
-//     product: { type: mongoose.Schema.Types.ObjectId, ref: 'products' }, // Cambio aquí
-//     quantity: Number
-//   }]
-// })
-
 module.exports = mongoose.model('carts', cartsSchema)

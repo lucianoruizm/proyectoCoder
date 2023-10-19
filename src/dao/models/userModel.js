@@ -10,6 +10,9 @@ const userSchema = Schema({
   age: Number,
   password: String,
   createdAt: Date,
+  cartId: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'carts' },
   admin: Boolean
 })
 

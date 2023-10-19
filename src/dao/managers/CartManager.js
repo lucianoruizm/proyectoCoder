@@ -1,5 +1,6 @@
 const cartModel = require('../models/cartModels')
 const ticketModel = require('../models/ticketModel')
+const userModel = require('../models/userModel')
 const ProductManager = require('./ProductManager')
 
 const productManager = new ProductManager()
@@ -7,7 +8,8 @@ const productManager = new ProductManager()
 class CartManager {
     constructor() {
         this.model = cartModel
-        this.modelTicket = ticketModel
+        this.userModel = userModel
+        this.ticketModel = ticketModel
     }
 
     async getCarts () {
@@ -19,11 +21,36 @@ class CartManager {
         }
     }
 
-    async addCart() {
+    async addCart(email) {
         try {
-          return this.model.create({
+          const newCart = await this.model.create({
             products: []
           })
+
+          console.log("ADD CART: ", newCart)
+
+          console.log("email para buscar user: ", email)
+
+          const user = await this.userModel.findOne({ email: email })
+          console.log(user)
+          let userId
+
+          if (user) {
+            userId = user._id
+            console.log("user id para agregar cart: ", userId)
+
+            const addCartToUser = await this.userModel.updateOne(
+              { _id: userId },
+              { $set: { cartId: newCart._id } }
+            )
+            
+            console.log(addCartToUser)
+            return newCart
+
+          } else {
+            return "Usuario no encontrando para agregarle su CART"
+          }
+
         } catch(error) {
             return `Error al crear el cart, ${error}`
         }
@@ -213,7 +240,7 @@ class CartManager {
           console.log('No se encuentran productos a comprar')
           return 'No se encuentran productos a comprar'
         }
-        const ticket = await this.modelTicket.create({
+        const ticket = await this.ticketModel.create({
           code: "asd",
           purchase_datetime: "asd123",
           amount: 555,

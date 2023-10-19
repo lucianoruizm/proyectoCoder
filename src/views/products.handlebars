@@ -3,7 +3,7 @@
   <nav>
     <ul>
       <li><a href="/profile">Perfil</a></li>
-      <li><a href="/cart/64ea4f4893207f61409583a8">Ir al CART</a></li>
+      <li><a href="/cart/{{cartId}}">Ir al CART</a></li>
     </ul>
   </nav>
 </header>
@@ -14,6 +14,7 @@
         <p>{{ error }}</p>
     {{else}}
         <table>
+            <input type="hidden" id="cart-id" value="{{cartId}}" />
             <tr>
               <th>Titulo</th>
               <th>Descripcion</th>

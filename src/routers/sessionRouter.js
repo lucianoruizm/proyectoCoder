@@ -39,7 +39,6 @@ sessionRouter.post('/login',
 })
 
 sessionRouter.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {
-
 })
 
 sessionRouter.get('/github-callback', passport.authenticate('github', { failureRedirect: '/login'}), async (req, res) => {

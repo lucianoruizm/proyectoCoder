@@ -16,7 +16,9 @@ class CartsController {
 
     addCart = async (req, res) => {
         try {
-            const addCart = await this.manager.addCart()
+            const email = req.body.email
+            console.log("req body email", email)
+            const addCart = await this.manager.addCart(email)
             return res.send(addCart)
         } catch (error) {
             return error

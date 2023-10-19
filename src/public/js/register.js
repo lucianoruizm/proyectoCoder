@@ -18,10 +18,17 @@ registerForm.addEventListener('submit', async (event) => {
 
   try {
     const response = await axios.post('http://localhost:8080/api/session/register', userData);
-    console.log("DATOS CON LOS CUALES SE REGISTRO: ", response.data)
+    console.log("DATOS CON LOS CUALES SE REGISTRO", userData)
+    const body = {
+      email: userData.email
+    }
+    console.log("email: ", email)
+    const createCart = await axios.post('http://localhost:8080/api/carts', body)
+    console.log(createCart)
+
     alert("Registro exitoso")
     registerForm.reset();
-    window.location.href = '/login'
+    //window.location.href = '/login'
   } catch (error) {
     console.error("ERROR: ", error);
     alert("Error, verifique su email y/o si el password es valido")
