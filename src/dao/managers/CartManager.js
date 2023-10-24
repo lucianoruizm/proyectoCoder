@@ -2,6 +2,8 @@ const cartModel = require('../models/cartModels')
 const ticketModel = require('../models/ticketModel')
 const userModel = require('../models/userModel')
 const ProductManager = require('./ProductManager')
+const uuid = require('uuid')
+const calculateTotalAmount = require('../../utils/calculateTotalAmount')
 
 const productManager = new ProductManager()
 
@@ -181,10 +183,19 @@ class CartManager {
         }
 
         const product = await productManager.getProductById(productId)
+        console.log("producto en update quantity: ", product.stock)
         
         if (!product) {
           console.log('No se encuentra el producto para actualizar del carrito');
           return 'No se encuentra el producto para actualizar en el carrito';
+        }
+
+        const newQuantity = parseInt(quantity)
+        console.log(newQuantity)
+        console.log(typeof(product.stock))
+        if (newQuantity > product.stock) {
+          console.log("No hay suficiente stock disponible")
+          return false
         }
 
         const result = await this.model.updateOne(
@@ -215,8 +226,8 @@ class CartManager {
         const cart = await this.getCartById(cartId)
 
         if (!cart) {
-          console.log('No se encuentra cart a actualizar con ID:', cartId)
-          return `No se encuentra cart a actualizar con ID: ${cartId}`
+          console.log('No se encuentra cart a vaciar con ID:', cartId)
+          return `No se encuentra cart a vaciar con ID: ${cartId}`
         }
 
         const cartUpdated = {
@@ -225,26 +236,28 @@ class CartManager {
         }
 
         await this.model.updateOne({ _id: cartId}, cartUpdated)
-        console.log('Cart actualizado correctamente con ID:', cartId)
+        console.log('Cart vacio con ID:', cartId)
         return cartUpdated
       }
       catch (e) {
-        console.log('Error al actualizar el cart', e)
-        return `Error al actualizar el cart: ${e}`
+        console.log('Error al vaciar el cart', e)
+        return `Error al vaciar el cart: ${e}`
       }
     }
 
-    async generateTicket (listProducts) {
+    async generateTicket (listProducts, userId) {
+      console.log("Lista Productos en generateTicket: ", listProducts)
+      console.log("ID del user en generateTicket: ", userId) 
+      
       try {
-        if (!listProducts) {
-          console.log('No se encuentran productos a comprar')
-          return 'No se encuentran productos a comprar'
+        if (!listProducts || listProducts.length === 0) {
+          console.log('No se encuentran productos para comprar')
+          return false
         }
         const ticket = await this.ticketModel.create({
-          code: "asd",
-          purchase_datetime: "asd123",
-          amount: 555,
-          purchaser: "asdasd123"
+          code: uuid.v4(),
+          amount: calculateTotalAmount(listProducts),
+          purchaser: userId
         })
         console.log("Ticket:", ticket)
         return ticket

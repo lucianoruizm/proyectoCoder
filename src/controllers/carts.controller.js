@@ -84,6 +84,9 @@ class CartsController {
             if (!quantity) {
                 return `No se puede actualizar cantidad de productos con ID ${productId} en el cart con ID ${cartId}`
             }
+            if (updateQuantityProducts === false) {
+                return res.status(400).json({ message: 'No hay suficiente stock disponible' });
+            }
             return res.json(updateQuantityProducts)
 
         } catch (error) {
@@ -104,11 +107,26 @@ class CartsController {
     }
 
     buyProducts = async (req, res) => {
+        const cartId = req.params.cid
         const listProducts = req.body.products
+        const userId = req.user._id
+
+        console.log("ID del user en buy products: ", userId)
         console.log("este", listProducts)
+
         try {
-            const generateTicket = await this.manager.generateTicket(listProducts)
-            res.status(200).json({ message: 'Compra exitosa', ticket: generateTicket , products: listProducts });
+            const generateTicket = await this.manager.generateTicket(listProducts, userId)
+
+            if (generateTicket) {
+                for (const product of listProducts) {
+                    const productId = product.product._id
+                    const quantity = product.quantity
+                }
+                const clearCart = await this.manager.clearCart(cartId)
+                res.status(200).json({ message: 'Compra exitosa', ticket: generateTicket , products: listProducts, userId: userId, clearCart: clearCart });
+            } else {
+                res.status(200).json({ message: 'No se encuentran productos en el CART para comprar' });
+            }
         } catch (e) {
             return res.status(404).json({
                 message: e.message

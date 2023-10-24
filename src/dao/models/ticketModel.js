@@ -3,11 +3,23 @@ const mongoose = require('mongoose')
 const ticketSchema = mongoose.Schema({
     code: {
         type: String,
-        unique: true
+        unique: true,
+        required: true,
     },
-    purchase_datetime: String,
-    amount: Number,
-    purchaser: String
+    purchase_datetime: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
+    amount: {
+        type: Number,
+        required: true,
+    },
+    purchaser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
+        required: true,
+    }
 
 })
 
