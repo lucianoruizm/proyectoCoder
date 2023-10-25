@@ -101,7 +101,29 @@ class ProductManager {
           console.log('Error al eliminar el producto', e)
           return `Error al eliminar el producto: ${e}`
         }
-    }
+      }
+
+      async updateProductStock (productId, newStock) {
+        try {
+          const product = await this.model.findById(productId);
+  
+          if (!product) {
+            console.log('No se encuentra producto para actualizar stock con ID:', productId)
+            return `No se encuentra producto para actualizar stock con ID: ${productId}`
+          }
+
+          const result = await this.model.updateOne(
+            { _id: productId },
+            { $set: { stock: newStock } }
+          )
+
+          return result
+        }
+        catch (e) {
+          console.log('Error al actualizar stock del producto', e)
+          return `Error al actualizar stock del producto: ${e}`
+        }
+      }
 }
 
 module.exports = ProductManager;

@@ -79,7 +79,12 @@ class CartManager {
       try {
         const cart = await this.model.findById(cartId);
         const productExist = await productManager.getProductById(productId)
-        console.log(productExist)
+        console.log("||| product existe ||| ", productExist)
+
+        if (!productExist.status || productExist.stock < 1) {
+          console.log(`No se puede agregar un producto status: FALSE`)
+          return false
+        }
         
         if (!cart) {
           return `No se encuentra cart por ID: ${cartId}`
@@ -191,8 +196,7 @@ class CartManager {
         }
 
         const newQuantity = parseInt(quantity)
-        console.log(newQuantity)
-        console.log(typeof(product.stock))
+        
         if (newQuantity > product.stock) {
           console.log("No hay suficiente stock disponible")
           return false
@@ -254,16 +258,32 @@ class CartManager {
           console.log('No se encuentran productos para comprar')
           return false
         }
+
         const ticket = await this.ticketModel.create({
           code: uuid.v4(),
           amount: calculateTotalAmount(listProducts),
           purchaser: userId
         })
+
+        if(!ticket) {
+          console.log("Error al generar ticket de compra")
+          return false
+        }
+        
+        for (const product of listProducts) {
+          const productId = product.product._id
+          const quantity = product.quantity
+          const stock = product.product.stock
+          const updatedStock = stock - quantity
+
+          await productManager.updateProductStock(productId, updatedStock)
+        }
+        
         console.log("Ticket:", ticket)
         return ticket
       }
       catch (e) {
-        console.log('Error al comprar producto/s', e)
+        console.log(`Error al comprar producto/s: ${e}`)
         return `Error al comprar producto/s: ${e}`
       }
     }

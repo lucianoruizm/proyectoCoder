@@ -41,6 +41,9 @@ class CartsController {
             const productId = req.params.pid
         
             const addProductToCart = await this.manager.addProductToCart(cartId, productId)
+            if(!addProductToCart) {
+                return res.status(400).json({ message: 'El producto no esta disponible' });
+            }
             return res.send(addProductToCart)
         } catch (error) {
             return error
@@ -87,6 +90,7 @@ class CartsController {
             if (updateQuantityProducts === false) {
                 return res.status(400).json({ message: 'No hay suficiente stock disponible' });
             }
+
             return res.json(updateQuantityProducts)
 
         } catch (error) {
@@ -118,10 +122,6 @@ class CartsController {
             const generateTicket = await this.manager.generateTicket(listProducts, userId)
 
             if (generateTicket) {
-                for (const product of listProducts) {
-                    const productId = product.product._id
-                    const quantity = product.quantity
-                }
                 const clearCart = await this.manager.clearCart(cartId)
                 res.status(200).json({ message: 'Compra exitosa', ticket: generateTicket , products: listProducts, userId: userId, clearCart: clearCart });
             } else {

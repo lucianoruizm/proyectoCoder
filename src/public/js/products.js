@@ -5,6 +5,13 @@ const addToCart = async (productId) => {
   try {
     await axios.post(`http://localhost:8080/api/carts/${cartId}/product/${productId}`);
   } catch (error) {
-    console.error(error);
+    console.error('Error al agregar producto:', error.message);
+    
+    if (error.response && error.response.status === 400) {
+      console.log('El producto no esta disponible');
+      alert('El producto no esta disponible');
+    } else {
+      console.error('Error desconocido:', error.message);
+    }
   }
 }

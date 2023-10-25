@@ -20,7 +20,7 @@ const substractFunction = async (productId, quantity) => {
     "quantity": parseInt(quantity) - 1
   }
 
-  if (data.quantity === -1) {
+  if (data.quantity <= 0) {
     return deleteFromCart(productId)
   }
 
