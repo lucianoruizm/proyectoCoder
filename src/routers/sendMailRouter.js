@@ -46,7 +46,7 @@ const generateEmailBody = (ticketInfo) => {
             <p><b>Código de Ticket:</b> ${ticketInfo.ticket.code}</p>
             <p><b>Monto Total:</b>$${ticketInfo.ticket.amount}</p>
             <p><b>Fecha y Hora de Compra:</b> ${ticketInfo.ticket.purchase_datetime}</p>
-            <p><b>ID Usuario:</b> ${ticketInfo.ticket._id}</p>
+            <p><b>ID Usuario:</b> ${ticketInfo.userId}</p>
             <table>
                 <tr>
                     <th>Producto</th>
