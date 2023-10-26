@@ -13,7 +13,6 @@ const { verifyToken } = require('../utils/jwt')
 // MIDDLEWARE USANDO JWT
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.authToken
-    console.log("cookies token: ", token)
   
     if (!token) {
       return res.status(401).json({

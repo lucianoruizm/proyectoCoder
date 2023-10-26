@@ -9,7 +9,6 @@ const JWTStrategy = passportJWT.Strategy
 const extractJWT = passportJWT.ExtractJwt
 
 const cookieExtractor = (req) => {
-  console.log("cookies: ", req.cookies)
   return req.cookies && req.cookies.authToken
 }
 
@@ -19,7 +18,6 @@ const initializePassport = () => {
     jwtFromRequest: extractJWT.fromExtractors([cookieExtractor]),
     secretOrKey: 'jwtsecret'
   }, (jwtPayload, done) => {
-    console.log("jwtPayload:", { jwtPayload })
     done(null, jwtPayload.user)
   }))
 
