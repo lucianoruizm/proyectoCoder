@@ -3,7 +3,7 @@ const ticketModel = require('../models/ticketModel')
 const userModel = require('../models/userModel')
 const ProductManager = require('./ProductManager')
 const uuid = require('uuid')
-const calculateTotalAmount = require('../../utils/calculateTotalAmount')
+const calculateTotalAmount = require('../utils/calculateTotalAmount')
 
 const productManager = new ProductManager()
 

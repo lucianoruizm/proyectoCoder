@@ -1,5 +1,5 @@
 const passportLocal = require('passport-local')
-const userModel = require('../dao/models/userModel')
+const userModel = require('../models/userModel')
 const { isValidPassword } = require('../utils/passwordHash')
 
 const LocalStrategy = passportLocal.Strategy

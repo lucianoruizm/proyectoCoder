@@ -45,8 +45,10 @@
                 </tr>
             {{/each}}
         </table>
-        {{#if cart}}
-          <button id="purchaseBtn" data-cart-id="{{cart._id}}">Comprar</button>
+        {{#if cart.products}}
+          <div class="purchaseBtnContainer">
+            <button id="purchaseBtn" data-cart-id="{{cart._id}}">Comprar</button>
+          </div>
         {{/if}}
     {{/if}}
 </div>

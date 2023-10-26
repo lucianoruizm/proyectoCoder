@@ -1,5 +1,5 @@
 const passport = require('passport')
-const userModel = require('../dao/models/userModel')
+const userModel = require('../models/userModel')
 const gitHubStrategy = require('../strategies/githubStrategy')
 const registerLocalStrategy = require('../strategies/registerLocalStrategy')
 const loginLocalStrategy = require('../strategies/loginLocalStrategy')

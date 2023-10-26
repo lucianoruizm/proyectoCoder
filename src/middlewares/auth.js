@@ -41,7 +41,6 @@ const isLoggedIn = (req, res, next) => {
     }
 }
 
-// MIDDLEWARES ROLES (PODRIA IMPLEMENTARSE DE UNA FORMA MEJOR)
 const isAdmin = (req, res, next) => {
     if(req.user && req.user.admin) {
         console.log("Is ADMIN")

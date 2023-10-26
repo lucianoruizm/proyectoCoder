@@ -1,5 +1,5 @@
 const GitHubStrategy = require('passport-github2')
-const userModel = require('../dao/models/userModel')
+const userModel = require('../models/userModel')
 const { generateToken } = require('../utils/jwt')
 
 const gitHubStrategy = new GitHubStrategy({

@@ -1,4 +1,4 @@
-const CartManager = require("../dao/managers/CartManager")
+const CartManager = require("../dao/CartManager")
 
 class CartsController {
     constructor () {

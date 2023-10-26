@@ -15,8 +15,8 @@ const viewsRouter = require('./routers/viewsRouter')
 const productsRouter = require('./routers/productRouter')
 const cartRouter = require('./routers/cartRouter')
 const sessionRouter = require('./routers/sessionRouter')
-const sendMailRouter = require('./routers/sendMailRouter')
-const sendSMSRouter = require('./routers/sendSMSRouter')
+const mailRouter = require('./routers/mailRouter')
+const SMSRouter = require('./routers/SMSRouter')
 
 const app = express()
 
@@ -58,8 +58,8 @@ app.use('/', viewsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartRouter)
 app.use('/api/session', sessionRouter)
-app.use('/api/mail', sendMailRouter)
-app.use('/api/sms', sendSMSRouter)
+app.use('/api/mail', mailRouter)
+app.use('/api/sms', SMSRouter)
 
 
 io.on('connection', (socket) => {

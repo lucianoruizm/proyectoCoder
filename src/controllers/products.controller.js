@@ -1,4 +1,4 @@
-const ProductManager = require("../dao/managers/ProductManager")
+const ProductManager = require("../dao/ProductManager")
 
 class ProductsController {
     constructor () {

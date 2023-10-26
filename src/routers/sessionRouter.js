@@ -1,6 +1,6 @@
 const express = require('express')
 const passport = require('passport')
-const userModel = require('../dao/models/userModel')
+const userModel = require('../models/userModel')
 const { createHash } = require('../utils/passwordHash')
 const { generateToken } = require('../utils/jwt')
 
