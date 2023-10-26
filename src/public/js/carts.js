@@ -1,4 +1,3 @@
-
 const cartId = document.getElementById('cart-id').value
 
 const deleteFromCart = async (productId) => {
@@ -69,10 +68,21 @@ async () => {
       const productsToPurchase = cart.products
       const responsePurchase = await axios.post(`http://localhost:8080/api/carts/${cartId}/purchase`, { products: productsToPurchase })
       console.log("Esta es la respuesta del post de compra: ", responsePurchase.data)
-  
+
+      const headers = {
+        'Content-Type': 'application/json',
+      }
+
+      const body = responsePurchase.data
+      console.log("BODY en JS: ", body)
+
+      if(responsePurchase.status === 200) {
+        await axios.post(`http://localhost:8080/api/mail`, body, {header: headers})
+      }
+      
       window.location.href = '/products'
     } else {
-      console.log("NOOOOOOOOOOOOOOOOOOOOOO")
+      console.log("No existe el CART")
     }
   } catch (error) {
     console.error('Error al comprar productos: ', error)

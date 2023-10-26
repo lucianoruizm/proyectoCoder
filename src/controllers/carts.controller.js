@@ -115,14 +115,12 @@ class CartsController {
         const listProducts = req.body.products
         const userId = req.user._id
 
-        console.log("ID del user en buy products: ", userId)
-        console.log("este", listProducts)
-
         try {
             const generateTicket = await this.manager.generateTicket(listProducts, userId)
 
             if (generateTicket) {
                 const clearCart = await this.manager.clearCart(cartId)
+                console.log({ message: 'Compra exitosa', ticket: generateTicket , products: listProducts, userId: userId })
                 res.status(200).json({ message: 'Compra exitosa', ticket: generateTicket , products: listProducts, userId: userId, clearCart: clearCart });
             } else {
                 res.status(200).json({ message: 'No se encuentran productos en el CART para comprar' });

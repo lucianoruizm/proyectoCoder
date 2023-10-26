@@ -15,6 +15,7 @@ const viewsRouter = require('./routers/viewsRouter')
 const productsRouter = require('./routers/productRouter')
 const cartRouter = require('./routers/cartRouter')
 const sessionRouter = require('./routers/sessionRouter')
+const sendMailRouter = require('./routers/sendMailRouter')
 
 const app = express()
 
@@ -56,6 +57,8 @@ app.use('/', viewsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartRouter)
 app.use('/api/session', sessionRouter)
+app.use('/api/mail', sendMailRouter)
+
 
 io.on('connection', (socket) => {
     console.log('Nuevo cliente conectado a WebSocket.');

@@ -250,8 +250,6 @@ class CartManager {
     }
 
     async generateTicket (listProducts, userId) {
-      console.log("Lista Productos en generateTicket: ", listProducts)
-      console.log("ID del user en generateTicket: ", userId) 
       
       try {
         if (!listProducts || listProducts.length === 0) {
@@ -279,7 +277,6 @@ class CartManager {
           await productManager.updateProductStock(productId, updatedStock)
         }
         
-        console.log("Ticket:", ticket)
         return ticket
       }
       catch (e) {
