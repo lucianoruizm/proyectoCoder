@@ -12,9 +12,6 @@ sessionRouter.get('/', (req, res) => {
 
 sessionRouter.post('/register', 
   passport.authenticate('register'),
-  // async (req, res) => {
-  //   return res.redirect('/login')
-  //}
   async (req, res) => {
     return res.redirect('/')
   }
@@ -22,12 +19,6 @@ sessionRouter.post('/register',
 
 sessionRouter.post('/login', 
   passport.authenticate('login'),
-  // async (req, res) => {
-  //   console.log({
-  //     user: req.user,
-  //     session: req.session
-  //   })
-  //   return res.json(req.user)
   async (req, res) => {
     const token = generateToken({
       name: req.user.name,
@@ -99,7 +90,6 @@ const passportCall = (strategy) => {
 }
 
 sessionRouter.get('/current', passportCall('jwt'), (req, res) => {
-  console.log("*** /CURRENT ***")
   return res.json({
       user: req.user,
       session: req.session

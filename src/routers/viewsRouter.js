@@ -9,20 +9,16 @@ viewsRouter.get('/register', (req, res) => {
       return 
     }
     try {
-      console.log("REGISTER")
       return res.render('register')
     } catch (error) {
-      console.log("ERROR REGISTER")
       return error
     }
 })
 
 viewsRouter.get('/', (req, res) => {
   try {
-    console.log("LOGIN")
     return res.render('login')
   } catch (error) {
-    console.log("ERROR LOGIN")
     return error
   }
 })
@@ -38,17 +34,14 @@ viewsRouter.get('/profile', authMiddleware, (req, res, next) => {
     return next()
   }, (req, res) => {
     let user = req.user
-    console.log("PROFILE: ", user)
     user = user.toObject()
     return res.render('profile', { user })
 })
 
 viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
         if (!req.user) {
-            console.log("PRODUCTS REDIRECT TO LOGIN")
             return res.redirect('/')
         }
-        console.log("IN PRODUCTS cartID del USER: ", req.user.cartId)
         
         return next()
         }, async (req, res) => {
@@ -60,7 +53,6 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
             const sort = req.query.sort
 
             const cartId = req.user.cartId
-            console.log("ASYNC IN PRODUCTS cartID del USER: ", req.user.cartId)
     
             let url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&sort=${sort}`
             
@@ -97,7 +89,6 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
 viewsRouter.get('/productsManagement', isAdmin, authMiddleware, async (req, res) => {
     try {
         if (!req.user) {
-            console.log("productsManagement REDIRECT TO LOGIN")
             return res.redirect('/')
         }
         const limit = req.query.limit
@@ -140,7 +131,6 @@ viewsRouter.get('/cart/:cid', isUser, authMiddleware, async (req, res) => {
         const cartId = req.params.cid
         const response = await axios.get(`http://localhost:8080/api/carts/${cartId}`)
         const cart = response.data
-        console.log(cart)
 
         res.render('carts', { cart })
     } catch (error) {

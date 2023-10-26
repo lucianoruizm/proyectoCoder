@@ -5,6 +5,8 @@ module.exports = () => ({
     db_host: process.env.DB_HOST,
     db_password: process.env.DB_PASSWORD,
     db_name: process.env.DB_NAME,
+    clientid: process.env.CLIENTID,
+    clientsecret: process.env.CLIENTSECRET,
     email_account: process.env.EMAIL,
     pass_email: process.env.PASS_EMAIL,
     destination_email: process.env.DESTINATION_EMAIL,

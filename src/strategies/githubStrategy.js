@@ -1,10 +1,15 @@
 const GitHubStrategy = require('passport-github2')
 const userModel = require('../models/userModel')
 const { generateToken } = require('../utils/jwt')
+const dotenv = require('dotenv')
+const configFn = require('../config')
+
+dotenv.config()
+const config = configFn()
 
 const gitHubStrategy = new GitHubStrategy({
-  clientID: 'Iv1.ae18f720827127f6',
-  clientSecret: 'd1f5c08e72747c2726a912ad3406af284233b3b0',
+  clientID: config.clientid,
+  clientSecret: config.clientsecret,
   callbackURL: 'http://localhost:8080/api/session/github-callback'
   }, async (accessToken, refreshToken, profile, done) => {
   
@@ -27,7 +32,6 @@ const gitHubStrategy = new GitHubStrategy({
         ...newUser,
         access_token: token
       })
-      //return done(null, newUser)
     } catch (e) {
       return done(e)
     }
