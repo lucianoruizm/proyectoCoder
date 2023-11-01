@@ -47,6 +47,7 @@
         </table>
         {{#if cart.products}}
           <div class="purchaseBtnContainer">
+            <button id="clearCart" data-cart-id="{{cart._id}}">Limpiar</button>
             <button id="purchaseBtn" data-cart-id="{{cart._id}}">Comprar</button>
           </div>
         {{/if}}

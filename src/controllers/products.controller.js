@@ -1,11 +1,12 @@
-const ProductManager = require("../dao/ProductManager")
+const ProductsService = require('../services/productsService')
 
 class ProductsController {
     constructor () {
-        this.manager = new ProductManager()
+        this.service = new ProductsService()
     }
 
     getProducts = async (req, res) => {
+        console.log("getProducts en controller")
         try {
             const limit = parseInt(req.query.limit) || 5
             const page = parseInt(req.query.page) || 1
@@ -28,10 +29,12 @@ class ProductsController {
                 params.sort = { price: sort}
             }
     
-            const getAllProducts = await this.manager.getProducts(filter, params)
+            const getAllProducts = await this.service.getProducts(filter, params)
+            console.log(getAllProducts)
             return res.json(getAllProducts)
         } catch(error) {
-            return res.json("Error", error)
+            console.log("error")
+            //res.status(500).send({ status: 'error', message: 'Error al solicitar lista de productos' });
         }
     }
 
@@ -58,7 +61,7 @@ class ProductsController {
                 params.sort = { price: sort}
             }
     
-            const getAllProducts = await this.manager.getProducts(filter, params)
+            const getAllProducts = await this.service.getProducts(filter, params)
             return res.json(getAllProducts)
         } catch(error) {
             return res.json("Error", error)
@@ -67,7 +70,7 @@ class ProductsController {
 
     getProductById = async (req, res) => {
         const productId = req.params.pid
-        const getProductById = await this.manager.getProductById(productId)
+        const getProductById = await this.service.getProductById(productId)
         console.log(getProductById)
         if (!getProductById) {
             return res.json(`El producto con el ID ${productId} no existe`)
@@ -78,7 +81,7 @@ class ProductsController {
     addProduct = async (req, res) => {
         const data = req.body
     
-        const postProduct = await this.manager.addProduct(data)
+        const postProduct = await this.service.addProduct(data)
         
         if (!data) {
             return "El producto no ha podido agregarse"
@@ -89,7 +92,7 @@ class ProductsController {
     updateProduct = async (req, res) => {
         const productId = req.params.pid
         const data = req.body
-        const updateProduct = await this.manager.updateProduct(productId, data)
+        const updateProduct = await this.service.updateProduct(productId, data)
         if (!data) {
             return `No se puede actualizar el producto con ID ${productId}`
         }
@@ -99,7 +102,7 @@ class ProductsController {
     deleteProduct = async (req, res) => {
         const productId = req.params.pid
         try {
-            const deleteProduct = await this.manager.deleteProduct(productId)
+            const deleteProduct = await this.service.deleteProduct(productId)
             return res.json(deleteProduct)
         } catch (e) {
             return res.status(404).json({

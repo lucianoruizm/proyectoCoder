@@ -54,6 +54,17 @@ const sumFunction = async (productId, quantity) => {
   }
 }
 
+document.getElementById('clearCart').addEventListener('click', 
+async () => {
+  try {
+    const cartId = document.getElementById('clearCart').dataset.cartId
+    await axios.delete(`http://localhost:8080/api/carts/${cartId}`)
+    console.log("Se limpio CART")
+  } catch (error) {
+    console.error('Error al limpiar productos del cart: ', error)
+  }
+})
+
 document.getElementById('purchaseBtn').addEventListener('click', 
 async () => {
   let cart;

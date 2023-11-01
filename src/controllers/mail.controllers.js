@@ -27,6 +27,8 @@ class MailController {
             console.error('Error al enviar el correo:', error);
             res.status(500).send({ status: 'error', message: 'Error al enviar el correo' });
         }
+        // console.log("GMAIL: ")
+        // console.log(req.body)
     }
 }
 

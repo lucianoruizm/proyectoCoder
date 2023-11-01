@@ -27,6 +27,8 @@ class SMSController {
             console.error('Error al enviar el sms:', error);
             res.status(500).send({ status: 'error', message: 'Error al enviar el sms' });
         }
+        // console.log("SMS: ")
+        // console.log(userId, ticketCode)
     }
 }
 
