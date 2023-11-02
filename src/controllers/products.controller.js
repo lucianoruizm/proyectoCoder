@@ -1,3 +1,6 @@
+const CustomError = require('../services/errors/customError')
+const EErrors = require('../services/errors/enums')
+const generateProductErrorInfo = require('../services/errors/info')
 const ProductsService = require('../services/productsService')
 
 class ProductsController {
@@ -82,10 +85,17 @@ class ProductsController {
         const data = req.body
     
         const postProduct = await this.service.addProduct(data)
-        
-        if (!data) {
-            return "El producto no ha podido agregarse"
+        const customError = CustomError.createError({
+            name: 'Product Creation Error',
+            cause: generateProductErrorInfo(( {data} )),
+            message: 'Error trying to create product',
+            code: EErrors.INVALID_TYPES_ERROR
+        })
+
+        if (!data || !postProduct) {
+            return res.status(400).json({ error: customError.message, causa: customError.cause})
         }
+
         return res.status(201).json(postProduct)
     }
 

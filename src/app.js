@@ -17,6 +17,8 @@ const cartRouter = require('./routers/cartRouter')
 const sessionRouter = require('./routers/sessionRouter')
 const mailRouter = require('./routers/mailRouter')
 const SMSRouter = require('./routers/SMSRouter')
+const mockingRouter = require('./routers/mockingRouter')
+const ErrorMiddleware = require('./middlewares/errorMiddleware')
 
 const app = express()
 
@@ -60,7 +62,9 @@ app.use('/api/carts', cartRouter)
 app.use('/api/session', sessionRouter)
 app.use('/api/mail', mailRouter)
 app.use('/api/sms', SMSRouter)
+app.use('/mockingproducts', mockingRouter)
 
+//app.use(ErrorMiddleware)
 
 io.on('connection', (socket) => {
     console.log('Nuevo cliente conectado a WebSocket.');

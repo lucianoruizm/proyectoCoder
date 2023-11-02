@@ -35,7 +35,7 @@ class ProductsService {
         return "Producto agregado correctamente"
       } catch (e) {
         console.log('Error: ', e);
-        return "Error al agregar producto";
+        return false
       }
     }
 
