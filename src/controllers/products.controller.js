@@ -33,11 +33,10 @@ class ProductsController {
             }
     
             const getAllProducts = await this.service.getProducts(filter, params)
-            console.log(getAllProducts)
             return res.json(getAllProducts)
         } catch(error) {
-            console.log("error")
-            //res.status(500).send({ status: 'error', message: 'Error al solicitar lista de productos' });
+            req.logger.warning(`Error al obtener PRODUCTS: ${error}`)
+            res.send({ message: "Error al obtener PRODUCTS"})
         }
     }
 
@@ -67,46 +66,62 @@ class ProductsController {
             const getAllProducts = await this.service.getProducts(filter, params)
             return res.json(getAllProducts)
         } catch(error) {
-            return res.json("Error", error)
+            req.logger.warning(`Error al obtener PRODUCTS: ${error}`)
+            res.send({ message: "Error al obtener PRODUCTS"})
         }
     }
 
     getProductById = async (req, res) => {
-        const productId = req.params.pid
-        const getProductById = await this.service.getProductById(productId)
-        console.log(getProductById)
-        if (!getProductById) {
-            return res.json(`El producto con el ID ${productId} no existe`)
+        try {
+            const productId = req.params.pid
+            const getProductById = await this.service.getProductById(productId)
+            console.log(getProductById)
+            if (!getProductById) {
+                return res.json(`El producto con el ID ${productId} no existe`)
+            }
+            return res.json(getProductById)
+        } catch (error) {
+            req.logger.warning(`Error al obtener PRODUCT por ID: ${error}`)
+            res.send({ message: "Error al obtener PRODUCT por ID"})
         }
-        return res.json(getProductById)
     }
 
     addProduct = async (req, res) => {
-        const data = req.body
+        try {
+            const data = req.body
+        
+            const postProduct = await this.service.addProduct(data)
+            const customError = CustomError.createError({
+                name: 'Product Creation Error',
+                cause: generateProductErrorInfo(( {data} )),
+                message: 'Error trying to create product',
+                code: EErrors.INVALID_TYPES_ERROR
+            })
     
-        const postProduct = await this.service.addProduct(data)
-        const customError = CustomError.createError({
-            name: 'Product Creation Error',
-            cause: generateProductErrorInfo(( {data} )),
-            message: 'Error trying to create product',
-            code: EErrors.INVALID_TYPES_ERROR
-        })
-
-        if (!data || !postProduct) {
-            return res.status(400).json({ error: customError.message, causa: customError.cause})
+            if (!data || !postProduct) {
+                return res.status(400).json({ error: customError.message, causa: customError.cause})
+            }
+    
+            return res.status(201).json(postProduct)
+        } catch (error) {
+            req.logger.warning(`Error al agregar PRODUCT: ${error}`)
+            res.send({ message: "Error al agregar PRODUCT"})
         }
-
-        return res.status(201).json(postProduct)
     }
 
     updateProduct = async (req, res) => {
-        const productId = req.params.pid
-        const data = req.body
-        const updateProduct = await this.service.updateProduct(productId, data)
-        if (!data) {
-            return `No se puede actualizar el producto con ID ${productId}`
+        try {
+            const productId = req.params.pid
+            const data = req.body
+            const updateProduct = await this.service.updateProduct(productId, data)
+            if (!data) {
+                return `No se puede actualizar el producto con ID ${productId}`
+            }
+            return res.json(updateProduct)
+        } catch (error) {
+            req.logger.warning(`Error al actualizar PRODUCT: ${error}`)
+            res.send({ message: "Error al actualizar PRODUCT"})
         }
-        return res.json(updateProduct)
     }
 
     deleteProduct = async (req, res) => {
@@ -114,9 +129,10 @@ class ProductsController {
         try {
             const deleteProduct = await this.service.deleteProduct(productId)
             return res.json(deleteProduct)
-        } catch (e) {
+        } catch (error) {
+            req.logger.warning(`Error al eliminar PRODUCT: ${error}`)
             return res.status(404).json({
-                message: e.message
+                message: error.message
             })
         }
     }

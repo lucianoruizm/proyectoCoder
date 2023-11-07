@@ -21,14 +21,11 @@ class MailController {
               }]
             })
             res.send({status: "success", result:"mail enviado"})
-        
-            console.log("BODY en MAIL", req.body)
+            
         } catch (error) {
-            console.error('Error al enviar el correo:', error);
+            req.logger.warning(`Error al enviar email: ${error}`)
             res.status(500).send({ status: 'error', message: 'Error al enviar el correo' });
         }
-        // console.log("GMAIL: ")
-        // console.log(req.body)
     }
 }
 

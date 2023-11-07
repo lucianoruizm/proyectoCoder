@@ -19,6 +19,8 @@ const mailRouter = require('./routers/mailRouter')
 const SMSRouter = require('./routers/SMSRouter')
 const mockingRouter = require('./routers/mockingRouter')
 const ErrorMiddleware = require('./middlewares/errorMiddleware')
+const addLogger = require('./utils/logger')
+
 
 const app = express()
 
@@ -53,6 +55,8 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use(addLogger)
+
 const httpServer = app.listen(config.PORT, () => console.log(`Servidor Express escuchando en el puerto: ${config.PORT}`))
 const io = new Server(httpServer)
 
@@ -63,6 +67,11 @@ app.use('/api/session', sessionRouter)
 app.use('/api/mail', mailRouter)
 app.use('/api/sms', SMSRouter)
 app.use('/mockingproducts', mockingRouter)
+
+app.get('/logger', (req, res) => {
+  req.logger.warning("¡Alerta!")
+  res.send({mesagge: "¡Prueba de LOGGER!"})
+})
 
 //app.use(ErrorMiddleware)
 

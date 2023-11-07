@@ -22,7 +22,7 @@ const authMiddleware = async (req, res, next) => {
   
     try {
       const payload = await verifyToken(token)
-      console.log("payload en authMiddleware: ", payload)
+      console.log("Payload en authMiddleware: ", payload)
     } catch (e) {
       return res.status(401).json({
         error: 'Token de acceso invalido'
@@ -33,7 +33,7 @@ const authMiddleware = async (req, res, next) => {
 
 const isLoggedIn = (req, res, next) => {
     if(req.user){
-        console.log("ya esta con una sesion abierta")
+        console.log("Ya esta con una sesion abierta")
         res.redirect('/profile')
     } else {
         next()

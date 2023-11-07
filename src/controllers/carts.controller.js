@@ -10,7 +10,8 @@ class CartsController {
             const getAllCarts = await this.service.getCarts()
             return res.json(getAllCarts)
         } catch (error) {
-            return error
+            req.logger.warning(`Error al obtener CARTS: ${error}`)
+            res.send({ message: "Error al obtener CARTS"})
         }
     }
 
@@ -21,7 +22,8 @@ class CartsController {
             const addCart = await this.service.addCart(email)
             return res.send(addCart)
         } catch (error) {
-            return error
+            req.logger.warning(`Error al agregar CART: ${error}`)
+            res.send({ message: "Error al agregar CART"})
         }
     }
 
@@ -31,7 +33,8 @@ class CartsController {
             const getCart = await this.service.getCartById(cartId)
             return res.send(getCart)
         } catch (error) {
-            return error
+            req.logger.warning(`Error al obtener CART por ID: ${error}`)
+            res.send({ message: "Error al obtener CART por ID"})
         }
     }
 
@@ -46,7 +49,8 @@ class CartsController {
             }
             return res.send(addProductToCart)
         } catch (error) {
-            return error
+            req.logger.warning(`Error al agregar producto al CART: ${error}`)
+            res.send({ message: "Error al agregar producto al CART"})
         }
     }
 
@@ -58,7 +62,8 @@ class CartsController {
             const deleteProductFromCart = await this.service.deleteProductFromCart(cartId, productId)
             return res.send(deleteProductFromCart)
         } catch (error) {
-            return error
+            req.logger.warning(`Error al eliminar producto del CART: ${error}`)
+            res.send({ message: "Error al eliminar producto del CART"})
         }
     }
 
@@ -73,7 +78,8 @@ class CartsController {
             return res.json(updateCart)
 
         } catch (error) {
-            return error
+            req.logger.warning(`Error al actualizar CART: ${error}`)
+            res.send({ message: "Error al actualizar CART"})
         }
     }
 
@@ -94,7 +100,8 @@ class CartsController {
             return res.json(updateQuantityProducts)
 
         } catch (error) {
-            return error
+            req.logger.warning(`Error al actualizar cantidad de productos: ${error}`)
+            res.send({ message: "Error al actualizar cantidad de productos"})
         }
     }
 
@@ -103,9 +110,10 @@ class CartsController {
         try {
             const cleanCart = await this.service.clearCart(cartId)
             return res.json(cleanCart)
-        } catch (e) {
+        } catch (error) {
+            req.logger.warning(`Error al vaciar CART: ${error}`)
             return res.status(404).json({
-                message: e.message
+                message: error.message
             })
         }
     }
@@ -125,9 +133,10 @@ class CartsController {
             } else {
                 res.status(400).json({ message: 'No se encuentran productos en el CART para comprar' });
             }
-        } catch (e) {
+        } catch (error) {
+            req.logger.warning(`Error al actualizar cantidad de productos: ${error}`)
             return res.status(404).json({
-                message: e.message
+                message: error.message
             })
         }
     }

@@ -1,7 +1,6 @@
 const EErrors = require("../services/errors/enums")
 
 const ErrorMiddleware = (error, req, res, next) => {
-    console.log("ErrorMiddleware|||||||")
     switch (error.code) {
         case EErrors.INVALID_TYPES_ERROR:
             console.log("ErrorMiddleware INVALID_TYPES_ERROR")
