@@ -1,0 +1,263 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carts
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Los carts fueron devueltos correctamente
+          content:
+            application/json:
+              schema:
+                $type: object
+                items:
+                  $ref: '#components/schemas/Cart'
+        "500":
+          description: Ocurrio un error en el servidor
+    post:
+      summary: Crea un nuevo cart
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: cart creado exitosamente
+        "400":
+          description: Solicitud incorrecta
+        "500":
+          description: Ocurrio un error en el servidor
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un cart por su id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del cart a buscar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: cart encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "404":
+          description: No se encontro el cart
+    delete:
+      summary: Elimina todos los productos del cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del cart a buscar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Los productos fueron eliminado del cart correctamente
+        "500":
+          description: Ocurrio un error en el servidor
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agrega un producto al cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del cart a buscar
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a buscar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto fue agregado del cart correctamente
+        "500":
+          description: Ocurrio un error en el servidor
+    delete:
+      summary: Elimina un producto del cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del cart a buscar
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a eliminar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto fue eliminado del cart correctamente
+        "500":
+          description: Ocurrio un error en el servidor
+    put:
+      summary: Edita la cantidad de un producto del cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del cart a buscar
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a buscar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateProductQuantity'
+      responses:
+        "200":
+          description: La cantidad del producto fue editada del cart correctamente
+        "500":
+          description: Ocurrio un error en el servidor
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Compra producto/s del cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del cart a buscar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/purchaseProducts'
+      responses:
+        "200":
+          description: Compra realizada
+        "500":
+          description: Ocurrio un error en el servidor
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de Mongo
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                $ref: '#/components/schemas/Product'
+              quantity:
+                type: integer
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de Mongo
+        title:
+          type: String
+          description: Titulo del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnail:
+          type: String
+          description: Path donde se encontraria una imagen
+        code:
+          type: String
+          description: Código unico del producto
+        stock:
+          type: Number
+          description: Stock del producto
+        status:
+          type: Boolean
+          description: Estado del producto
+        category:
+          type: String
+          description: Categoría del producto
+      example:
+        _id: ObjectId("xxxxx")
+        title: PC
+        description: 64gb Ram i9 9900k
+        price: 1800000
+        thumbnail: ./pc.png
+        code: F961AA8S6D
+        stock: 3
+        status: true
+        category: Tech
+  requestBodies:
+    updateProductQuantity:
+      type: object
+      properties:
+        quantity:
+          type: Number
+          description: Cantidad de producto
+      example:
+        quantity: 5
+    purchaseProducts:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                $ref: '#/components/schemas/Product'
+              quantity:
+                type: integer
+        example:
+          products:
+              - product:
+                  _id: "64cc21c6c42d444f3cef56c3"
+                  title: "Camara de Seguridad"
+                  description: "Resolución de 2MP"
+                  price: 16000
+                  thumbnail: "./camara.png"
+                  code: "A6DF88"
+                  stock: 5
+                  status: true
+                  category: "tech"
+                quantity: 2
+              - product:
+                  _id: "64cc53c909e3cc54c1596c4a"
+                  title: "Panel Calefactor"
+                  description: "1400w Temptech Alto Rendimiento"
+                  price: 75000
+                  thumbnail: "/.calefactor.png"
+                  code: "AS476D5"
+                  stock: 5
+                  status: true
+                  category: "tech"
+                quantity: 1

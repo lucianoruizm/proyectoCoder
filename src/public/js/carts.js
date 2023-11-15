@@ -4,7 +4,7 @@ const deleteFromCart = async (productId) => {
   console.log("cartId: ", cartId)
   console.log("productId: ", productId)
   try {
-    await axios.delete(`http://localhost:8080/api/carts/${cartId}/products/${productId}`);
+    await axios.delete(`http://localhost:8080/api/carts/${cartId}/product/${productId}`);
   } catch (error) {
     console.error(error);
   }
@@ -24,7 +24,7 @@ const substractFunction = async (productId, quantity) => {
   }
 
   try {
-    await axios.put(`http://localhost:8080/api/carts/${cartId}/products/${productId}`, data);
+    await axios.put(`http://localhost:8080/api/carts/${cartId}/product/${productId}`, data);
   } catch (error) {
     console.error(error);
   }
@@ -40,7 +40,7 @@ const sumFunction = async (productId, quantity) => {
   }
 
   try {
-    const response = await axios.put(`http://localhost:8080/api/carts/${cartId}/products/${productId}`, data);
+    const response = await axios.put(`http://localhost:8080/api/carts/${cartId}/product/${productId}`, data);
     console.log(response)
   } catch (error) {
     console.error('Error al sumar producto:', error.message);

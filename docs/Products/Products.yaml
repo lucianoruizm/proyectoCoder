@@ -1,0 +1,237 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos fueron devueltos correctamente
+          content:
+            application/json:
+              schema:
+                $type: object
+                items:
+                  $ref: '#components/schemas/Product'
+        "500":
+          description: Ocurrio un error en el servidor
+    post:
+      summary: Crea un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/createProduct'
+      responses:
+        "200":
+          description: producto creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Product'
+        "400":
+          description: Solicitud incorrecta
+        "500":
+          description: Ocurrio un error en el servidor
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto por su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a buscar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Product'
+    put:
+      summary: actualiza un producto a partir de su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a buscar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateProduct'
+      responses:
+        "200":
+          description: producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Product'
+    delete:
+      summary: elimina un producto a partir de su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto a buscar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: producto eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Product'
+        "404":
+          description: No se encontro el producto
+  /api/products/productsManagement:
+    get:
+      summary: Obtiene todos los productos para el usuario administrador
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos fueron devueltos correctamente
+          content:
+            application/json:
+              schema:
+                $type: object
+                items:
+                  $ref: '#components/schemas/Product'
+        "500":
+          description: Ocurrio un error en el servidor
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de Mongo
+        title:
+          type: String
+          description: Titulo del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnail:
+          type: String
+          description: Path donde se encontraria una imagen
+        code:
+          type: String
+          description: Código unico del producto
+        stock:
+          type: Number
+          description: Stock del producto
+        status:
+          type: Boolean
+          description: Estado del producto
+        category:
+          type: String
+          description: Categoría del producto
+      example:
+        _id: ObjectId("xxxxx")
+        title: PC
+        description: 64gb Ram i9 9900k
+        price: 1800000
+        thumbnail: ./pc.png
+        code: F961AA8S6D
+        stock: 3
+        status: true
+        category: Tech
+  requestBodies:
+    createProduct:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de Mongo
+        title:
+          type: String
+          description: Titulo del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnail:
+          type: String
+          description: Path donde se encontraria una imagen
+        code:
+          type: String
+          description: Código unico del producto
+        stock:
+          type: Number
+          description: Stock del producto
+        status:
+          type: Boolean
+          description: Estado del producto
+        category:
+          type: String
+          description: Categoría del producto
+      example:
+        title: PC
+        description: 64gb Ram i9 9900k
+        price: 155000
+        thumbnail: ./pc.png
+        code: "D5FB4S5"
+        stock: 2
+        status: true
+        category: Tech
+    updateProduct:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de Mongo
+        title:
+          type: String
+          description: Titulo del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnail:
+          type: String
+          description: Path donde se encontraria una imagen
+        code:
+          type: String
+          description: Código unico del producto
+        stock:
+          type: Number
+          description: Stock del producto
+        status:
+          type: Boolean
+          description: Estado del producto
+        category:
+          type: String
+          description: Categoría del producto
+      example:
+        title: PC
+        description: 64gb Ram i9 9900k
+        price: 155000
+        thumbnail: ./pc.png
+        stock: 2
+        status: true
+        category: Tech

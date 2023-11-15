@@ -8,6 +8,8 @@ const configFn = require('./config')
 const MongoStore = require('connect-mongo')
 const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
+const swaggerDocs = require('swagger-jsdoc')
+const swaggerUiExpress = require('swagger-ui-express')
 
 const initializePassport = require('./config/passport.config')
 
@@ -55,6 +57,22 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'Documentación de Ecommerce',
+      description: 'Proyecto backend Coder House'
+    }
+  },
+  apis: [
+    `./docs/**/*.yaml`
+  ]
+}
+
+const specs = swaggerDocs(swaggerOptions)
+
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 app.use(addLogger)
 
 const httpServer = app.listen(config.PORT, () => console.log(`Servidor Express escuchando en el puerto: ${config.PORT}`))
