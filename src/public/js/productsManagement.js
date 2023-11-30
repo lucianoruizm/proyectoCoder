@@ -1,5 +1,4 @@
 
-
 const productForm = document.getElementById('productForm');
 productForm.addEventListener('submit', async (event) => {
   event.preventDefault();

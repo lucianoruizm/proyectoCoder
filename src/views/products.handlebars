@@ -30,7 +30,11 @@
                   <td>{{this.description}}</td>
                   <td>{{this.price}}</td>
                   <td>{{this.stock}}</td>
-                  <td>{{this.status}}</td>
+                  {{#if this.status}}
+                    <td>Disponible</td>
+                  {{else}}
+                    <td>No disponible</td>
+                  {{/if}}
                   <td>{{this.category}}</td>
                   <td>
                       <button onclick="addToCart('{{this._id}}')">Add To Cart</button>

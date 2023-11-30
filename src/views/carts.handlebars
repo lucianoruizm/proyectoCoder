@@ -13,7 +13,7 @@
         <p>{{ error }}</p>
     {{else}}
         <input type="hidden" id="cart-id" value="{{cart._id}}" />
-        <table>
+        <table id="cartTable">
             <tr>
               <th>Titulo</th>
               <th>Descripcion</th>
@@ -26,7 +26,7 @@
               <th></th>
             </tr>
             {{#each cart.products}}
-                <tr>
+                <tr rowId="{{this.product._id}}">
                   <td>{{this.product.title}}</td>
                   <td>{{this.product.description}}</td>
                   <td>{{this.product.price}}</td>
@@ -54,5 +54,7 @@
     {{/if}}
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/cartsSocket.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/carts.js"></script>

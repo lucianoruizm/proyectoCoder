@@ -86,11 +86,13 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
         
 })
 
-viewsRouter.get('/productsManagement', isAdmin, authMiddleware, async (req, res) => {
-    try {
+viewsRouter.get('/productsManagement', isAdmin, authMiddleware, (req, res, next) => {
         if (!req.user) {
             return res.redirect('/')
         }
+        return next()
+        }, async (req, res) => {
+
         const limit = req.query.limit
         const page = req.query.page
         const category = req.query.category || null
@@ -109,9 +111,15 @@ viewsRouter.get('/productsManagement', isAdmin, authMiddleware, async (req, res)
             url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&category=${category}&status=${status}&sort=${sort}`
         }
 
-        const response = await axios.get(url)
+        const token = req.cookies.authToken;
+        const response = await axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
         const products = response.data
+        console.log("productos estos: ", products)
         const pageNumber = page !== undefined ? parseInt(page) : 1
 
         if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > products.totalPages) {
@@ -120,10 +128,6 @@ viewsRouter.get('/productsManagement', isAdmin, authMiddleware, async (req, res)
         }
 
         res.render('productsManagement', { products })
-    } catch (error) {
-        console.log(error)
-        res.render('products', { error: 'Error al obtener los productos'})
-    }
 })
 
 viewsRouter.get('/cart/:cid', isUser, authMiddleware, async (req, res) => {

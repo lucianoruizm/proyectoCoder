@@ -108,6 +108,22 @@ io.on('connection', (socket) => {
     socket.on('editarProducto', (data) => {
       io.emit('editarProducto', JSON.parse(data));
     });
+
+    socket.on('eliminarProductoDelCart', (data) => {
+      io.emit('eliminarProductoDelCart', JSON.parse(data));
+    });
+
+    socket.on('sumarProducto', (data) => {
+      io.emit('sumarProducto', JSON.parse(data));
+    });
+
+    socket.on('restarProducto', (data) => {
+      io.emit('restarProducto', JSON.parse(data));
+    });
+
+    socket.on('limpiarCart', () => {
+      io.emit('limpiarCart');
+    });
   
     socket.on('disconnect', () => {
       console.log('Cliente desconectado.');

@@ -5,6 +5,7 @@ const deleteFromCart = async (productId) => {
   console.log("productId: ", productId)
   try {
     await axios.delete(`http://localhost:8080/api/carts/${cartId}/product/${productId}`);
+    socket.emit('eliminarProductoDelCart', JSON.stringify(productId))
   } catch (error) {
     console.error(error);
   }
@@ -19,12 +20,23 @@ const substractFunction = async (productId, quantity) => {
     "quantity": parseInt(quantity) - 1
   }
 
-  if (data.quantity <= 0) {
-    return deleteFromCart(productId)
+  let dataSocket = {
+    productId: productId,
+    quantity: data.quantity
   }
 
+  if (data.quantity <= 0) {
+    dataSocket = {
+      productId: productId,
+      quantity: 0
+    }
+    socket.emit('restarProducto', JSON.stringify(dataSocket))
+    return deleteFromCart(productId)
+  }
+  
   try {
     await axios.put(`http://localhost:8080/api/carts/${cartId}/product/${productId}`, data);
+    socket.emit('restarProducto', JSON.stringify(dataSocket))
   } catch (error) {
     console.error(error);
   }
@@ -39,9 +51,15 @@ const sumFunction = async (productId, quantity) => {
     "quantity": parseInt(quantity) + 1
   }
 
+  const dataSocket = {
+    productId: productId,
+    quantity: data.quantity
+  }
+
   try {
     const response = await axios.put(`http://localhost:8080/api/carts/${cartId}/product/${productId}`, data);
     console.log(response)
+    socket.emit('sumarProducto', JSON.stringify(dataSocket))
   } catch (error) {
     console.error('Error al sumar producto:', error.message);
     
@@ -60,6 +78,7 @@ async () => {
     const cartId = document.getElementById('clearCart').dataset.cartId
     await axios.delete(`http://localhost:8080/api/carts/${cartId}`)
     console.log("Se limpio CART")
+    socket.emit('limpiarCart')
   } catch (error) {
     console.error('Error al limpiar productos del cart: ', error)
   }
