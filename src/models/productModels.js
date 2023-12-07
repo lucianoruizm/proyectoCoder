@@ -19,7 +19,8 @@ const productsSchema = Schema({
     },
     stock: Number,
     status: Boolean,
-    category: String
+    category: String,
+    owner: String,
 })
 productsSchema.plugin(mongoosePaginate)
 

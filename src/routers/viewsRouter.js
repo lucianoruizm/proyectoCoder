@@ -1,7 +1,7 @@
 const express = require('express')
 const axios = require('axios')
 const viewsRouter = express.Router()
-const { authMiddleware, isAdmin, isUser, isLoggedIn } = require('../middlewares/auth')
+const { authMiddleware, isAdmin, isPremium, isUser, isLoggedIn } = require('../middlewares/auth')
 
 
 viewsRouter.get('/register', (req, res) => {
@@ -119,7 +119,6 @@ viewsRouter.get('/productsManagement', isAdmin, authMiddleware, (req, res, next)
         });
 
         const products = response.data
-        console.log("productos estos: ", products)
         const pageNumber = page !== undefined ? parseInt(page) : 1
 
         if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > products.totalPages) {
@@ -128,6 +127,50 @@ viewsRouter.get('/productsManagement', isAdmin, authMiddleware, (req, res, next)
         }
 
         res.render('productsManagement', { products })
+})
+
+viewsRouter.get('/productsPremium', isPremium, authMiddleware, (req, res, next) => {
+    if (!req.user) {
+        return res.redirect('/')
+    }
+    return next()
+    }, async (req, res) => {
+
+    const limit = req.query.limit
+    const page = req.query.page
+    const category = req.query.category || null
+    const status = req.query.status || null
+    const owner = req.user.email
+    const sort = req.query.sort
+
+    let url = `http://localhost:8080/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&sort=${sort}`
+    
+    if (category) {
+        url = `http://localhost:8080/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&category=${category}&sort=${sort}`
+    }
+    if (status !== null) {
+        url = `http://localhost:8080/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&status=${status}&sort=${sort}`
+    }
+    if (category & status) {
+        url = `http://localhost:8080/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&category=${category}&status=${status}&sort=${sort}`
+    }
+
+    const token = req.cookies.authToken;
+    const response = await axios.get(url, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    const products = response.data
+    const pageNumber = page !== undefined ? parseInt(page) : 1
+
+    if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > products.totalPages) {
+        const message = "El numero de pagina no es valido"
+        return res.render('errorView', { message })
+    }
+
+    res.render('productsPremium', { products })
 })
 
 viewsRouter.get('/cart/:cid', isUser, authMiddleware, async (req, res) => {

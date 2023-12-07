@@ -8,6 +8,7 @@ const generateProductErrorInfo = (product) => {
     //     * code (required): Debe ser tipo String y unico, se recibio: ${product.data.code}
     //     * status: Debe ser tipo Boolean (true/false, 1/0), se recibio: ${product.data.status}
     //     * category: Debe ser tipo String, se recibio: ${product.data.category}
+    //     * owner: Debe ser tipo String, se recibio: ${product.data.owner}
     // `
     return {
         title: `Debe ser tipo String, se recibió: ${product.data.title}`,
@@ -16,7 +17,8 @@ const generateProductErrorInfo = (product) => {
         stock: `Debe ser tipo Integer, se recibió: ${product.data.stock}`,
         code: `Debe ser tipo String y único, se recibió: ${product.data.code}`,
         status: `Debe ser tipo Boolean (true/false, 1/0), se recibió: ${product.data.status}`,
-        category: `Debe ser tipo String, se recibió: ${product.data.category}`
+        category: `Debe ser tipo String, se recibió: ${product.data.category}`,
+        owner: `Debe ser tipo String, se recibió: ${product.data.owner}`
     }
 }
 

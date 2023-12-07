@@ -13,7 +13,8 @@ const userSchema = Schema({
   cartId: { 
     type: Schema.Types.ObjectId, 
     ref: 'carts' },
-  admin: Boolean
+  admin: Boolean,
+  premium: Boolean,
 })
 
 module.exports = model('users', userSchema)

@@ -7,13 +7,15 @@ registerForm.addEventListener('submit', async (event) => {
   const email = document.querySelector('input[name="email"]').value;
   const age = document.querySelector('input[name="age"]').value;
   const password = document.querySelector('input[name="password"]').value;
+  let premium = document.getElementById('premiumCheckbox').checked;
 
   const userData = {
     name,
     lastname,
     email,
     age,
-    password
+    password,
+    premium,
   };
 
   try {

@@ -11,7 +11,6 @@ productForm.addEventListener('submit', async (event) => {
   const stock = document.querySelector('input[name="stock"]').value;
   const status = document.querySelector('select[name="status"]').value;
   const category = document.querySelector('input[name="category"]').value;
-  const owner = "admin";
 
   const productData = {
     title,
@@ -22,7 +21,6 @@ productForm.addEventListener('submit', async (event) => {
     stock,
     status,
     category,
-    owner
   };
 
   try {
@@ -31,7 +29,6 @@ productForm.addEventListener('submit', async (event) => {
     socket.emit('nuevoProducto', JSON.stringify(productData))
     productForm.reset()
   } catch (error) {
-    alert("Error, no se pudo procesar datos del producto")
     console.error(error);
   }
 });

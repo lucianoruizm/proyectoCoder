@@ -49,6 +49,18 @@ const isAdmin = (req, res, next) => {
     }
 }
 
+const isPremium = (req, res, next) => {
+  if(req.user && req.user.premium) {
+      console.log("Is PREMIUM")
+      next()
+  } 
+  else if (req.user && req.user.admin) {
+      res.redirect('/productsManagement')
+  } else {
+      res.redirect('/products')
+  }
+}
+
 const isUser = (req, res, next) => {
     if(req.user && !req.user.admin) {
         console.log("Is USER")
@@ -58,4 +70,4 @@ const isUser = (req, res, next) => {
     }
 }
 
-module.exports = { authMiddleware, isAdmin, isUser, isLoggedIn }
+module.exports = { authMiddleware, isAdmin, isPremium, isUser, isLoggedIn }

@@ -71,6 +71,40 @@ class ProductsController {
         }
     }
 
+    getProductsPremium = async (req, res) => {
+        try {
+            const limit = parseInt(req.query.limit) || 7
+            const page = parseInt(req.query.page) || 1
+            const category = req.query.category || null
+            const status = req.query.status || null
+            const owner = req.query.owner
+            const sort = parseInt(req.query.sort) || null
+    
+            const params = { limit, page }
+            let filter = {}
+    
+            if(status !== null) {
+                filter.status = status
+            }
+    
+            if(category !== null) {
+                filter.category = category
+            }
+
+            filter.owner = owner
+    
+            if(sort !== null) {
+                params.sort = { price: sort}
+            }
+    
+            const getAllProducts = await this.service.getProducts(filter, params)
+            return res.json(getAllProducts)
+        } catch(error) {
+            req.logger.warning(`Error al obtener PRODUCTS: ${error}`)
+            res.send({ message: "Error al obtener PRODUCTS"})
+        }
+    }
+
     getProductById = async (req, res) => {
         try {
             const productId = req.params.pid
@@ -88,17 +122,23 @@ class ProductsController {
 
     addProduct = async (req, res) => {
         try {
-            const data = req.body
+            let data = req.body
+            const isUserPremium = req.user.premium
+            const userEmail = req.user.email
+
+            if (isUserPremium) {
+                data.owner = userEmail
+            }
         
             const postProduct = await this.service.addProduct(data)
-            const customError = CustomError.createError({
-                name: 'Product Creation Error',
-                cause: generateProductErrorInfo(( {data} )),
-                message: 'Error trying to create product',
-                code: EErrors.INVALID_TYPES_ERROR
-            })
     
             if (!data || !postProduct) {
+                const customError = CustomError.createError({
+                    name: 'Product Creation Error',
+                    cause: generateProductErrorInfo(( {data} )),
+                    message: 'Error trying to create product',
+                    code: EErrors.INVALID_TYPES_ERROR
+                })
                 return res.status(400).json({ error: customError.message, causa: customError.cause})
             }
     

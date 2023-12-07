@@ -5,7 +5,6 @@ class ProductsDAOMongo {
         this.model = productModel
     }
 
-    // estoy en el getAll
     getAll (filter, params) {
         console.log("getAll en DAO")
         return this.model.paginate(filter, params)
@@ -32,7 +31,8 @@ class ProductsDAOMongo {
             code: data.code,
             stock: data.stock,
             status: data.status,
-            category: data.category
+            category: data.category,
+            owner: data.owner
           }
         )
             .then(product => {
