@@ -5,6 +5,7 @@ const productsRouter = Router()
 const productsController = new ProductsController()
 
 productsRouter.get('/productsManagement', productsController.getProductsAdmin)
+productsRouter.get('/productsPremium', productsController.getProductsPremium)
 productsRouter.get('/', productsController.getProducts)
 productsRouter.get('/:pid', productsController.getProductById)
 productsRouter.post('/', productsController.addProduct)

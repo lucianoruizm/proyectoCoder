@@ -167,6 +167,7 @@ viewsRouter.get('/productsPremium', isPremium, authMiddleware, (req, res, next) 
     });
 
     const products = response.data
+    console.log("Productos Premium: ", products)
     const pageNumber = page !== undefined ? parseInt(page) : 1
 
     if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > products.totalPages) {
