@@ -3,7 +3,11 @@
     <ul>
       <li>
         <a href="/products">Ir a PRODUCTS</a>
-        <a href="/cart/64ea4f4893207f61409583a8">Ir al CART</a>
+        {{!-- <a href="/cart/64ea4f4893207f61409583a8">Ir al CART</a> --}}
+        <li><a href="/cart/{{cartId}}">Ir al CART</a></li>
+        {{#if user.premium}}
+          <li><a href="/productsPremium">Ir a PRODUCTS PREMIUM</a></li>
+        {{/if}}
       </li>
     </ul>
   </nav>
@@ -25,9 +29,13 @@ Apellido: {{user.lastname}}<br><br>
 Edad: {{user.age}}<br><br>
 Email: {{user.email}}<br><br>
 {{#if user.admin}}
-  Rol: admin<br><br>
+  Rol: Admin<br><br>
 {{else}}
-  Rol: user<br><br>
+  {{#if user.premium}}
+    Rol: User Premium<br><br>
+  {{else}}
+    Rol: User<br><br>
+  {{/if}}
 {{/if}}
 
 <button onclick="logout()">Cerrar Sesion</button>

@@ -35,7 +35,8 @@ viewsRouter.get('/profile', authMiddleware, (req, res, next) => {
   }, (req, res) => {
     let user = req.user
     user = user.toObject()
-    return res.render('profile', { user })
+    const cartId = req.user.cartId
+    return res.render('profile', { user, cartId })
 })
 
 viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
@@ -45,6 +46,9 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
         
         return next()
         }, async (req, res) => {
+
+            let user = req.user
+            user = user.toObject()
 
             const limit = req.query.limit
             const page = req.query.page
@@ -82,7 +86,7 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
                 return res.render('errorView', { message })
             }
     
-            res.render('products', { products, cartId })
+            res.render('products', { products, cartId, user })
         
 })
 
@@ -175,11 +179,14 @@ viewsRouter.get('/productsPremium', isPremium, authMiddleware, (req, res, next) 
 
 viewsRouter.get('/cart/:cid', isUser, authMiddleware, async (req, res) => {
     try {
+        let user = req.user
+        user = user.toObject()
+
         const cartId = req.params.cid
         const response = await axios.get(`http://localhost:8080/api/carts/${cartId}`)
         const cart = response.data
 
-        res.render('carts', { cart })
+        res.render('carts', { cart, user })
     } catch (error) {
         console.log(error)
         res.render('carts', { error: 'Error al obtener los productos'})
