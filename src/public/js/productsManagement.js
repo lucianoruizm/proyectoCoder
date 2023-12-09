@@ -84,11 +84,12 @@ productFormEdit.addEventListener('submit', async (event) => {
   console.log(productUpdated)
 
   try {
+    socket.emit('editarProducto', JSON.stringify(productUpdated))
     await axios.put(`http://localhost:8080/api/products/${idProduct}`, productUpdated);
     alert("Producto Editado")
-    socket.emit('editarProducto', JSON.stringify(productUpdated))
     productFormEdit.reset();
   } catch (error) {
+    alert("No se pudo actualizar el producto")
     console.log(error);
   }
 });

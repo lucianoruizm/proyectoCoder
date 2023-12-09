@@ -40,8 +40,7 @@ class UsersService {
 
             const userUpdated = {
               _id: user._id,
-              admin: data.admin,
-              premium: data.admin,
+              premium: data.premium,
             }
 
             await this.repository.update({ _id: id}, userUpdated)

@@ -23,10 +23,9 @@ class UserDAOMongo {
 
     update (id, data) {
         const userUpdated = {
-            _id: user._id,
-            admin: data.admin,
+            _id: data._id,
             premium: data.premium
-          }
+        }
 
         return this.model.updateOne({ _id: id}, userUpdated)
             .then(user => {

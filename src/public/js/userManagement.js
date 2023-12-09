@@ -23,29 +23,23 @@ userFormEdit.addEventListener('submit', async (event) => {
   const idUser = document.querySelector('input[name="idEdit"]').value;
   console.log(idUser)
 
-  const name = document.querySelector('input[name="nameEdit"]').value;
-  const lastname = document.querySelector('input[name="lastnameEdit"]').value;
-  const email = document.querySelector('input[name="emailEdit"]').value;
-  const admin = document.querySelector('input[name="adminEdit"]').value;
-  const premium = document.querySelector('input[name="premiumEdit"]').value;
-
+  const rol = document.querySelector('select[name="rol"]').value;
+  let premium
+  
   const userUpdated = {
     _id: idUser,
-    name,
-    lastname,
-    email,
-    admin,
-    premium
+    premium: rol === 'basic' ? premium === false : premium = true
   }
 
   console.log(userUpdated)
 
   try {
-    await axios.put(`http://localhost:8080/api/users/${idUser}`, userUpdated);
-    alert("User Editado")
     socket.emit('editarUser', JSON.stringify(userUpdated))
+    await axios.put(`http://localhost:8080/api/users/${idUser}`, userUpdated);
+    alert("User actualizado")
     userFormEdit.reset();
   } catch (error) {
+    alert("No se pudo actualizar el User")
     console.log(error);
   }
 });

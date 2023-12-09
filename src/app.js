@@ -126,6 +126,14 @@ io.on('connection', (socket) => {
     socket.on('limpiarCart', () => {
       io.emit('limpiarCart');
     });
+
+    socket.on('eliminarUser', (userId) => {
+      io.emit('eliminarUser', userId);
+    });
+
+    socket.on('editarUser', (data) => {
+      io.emit('editarUser', JSON.parse(data));
+    });
   
     socket.on('disconnect', () => {
       console.log('Cliente desconectado.');

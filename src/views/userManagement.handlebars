@@ -17,9 +17,9 @@
   {{#each users.docs}}
     <tr rowId="{{this._id}}">
       <td>{{this._id}}</td>
-      <td>{{this.name}}</td>
-      <td>{{this.lastname}}</td>
-      <td>{{this.email}}</td>
+      <td >{{this.name}}</td>
+      <td >{{this.lastname}}</td>
+      <td >{{this.email}}</td>
       {{#if this.admin}}
           <td>Admin</td>
       {{else}} 
@@ -53,7 +53,9 @@
 
   <form id="userFormEdit">
       <h3>EDITAR USUARIO</h3>
-      <label for="idEdit" >INGRESAR ID DE USUARIO A EDITAR:</label><input type="text" name="idEdit">
+      <label for="idEdit" >INGRESAR ID DE USUARIO A EDITAR:</label>
+      <input type="text" name="idEdit">
+
       <label for="rol" >Rol:</label>
       <select name="rol" id="rol">
         <option value="basic">Basico</option>
@@ -64,6 +66,6 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/usersSocket.js"></script>
-<script src="/js/usersManagement.js"></script>
+<script src="/js/userSocket.js"></script>
+<script src="/js/userManagement.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
