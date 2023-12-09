@@ -15,6 +15,7 @@ class ProductsController {
             const page = parseInt(req.query.page) || 1
             const category = req.query.category || null
             const status = req.query.status || null
+            const owner = req.query.owner || null
             const sort = parseInt(req.query.sort) || null
     
             const params = { limit, page}
@@ -26,6 +27,10 @@ class ProductsController {
     
             if(category !== null) {
                 filter.category = category
+            }
+
+            if(owner !== null) {
+                filter.owner = null
             }
     
             if(sort !== null) {

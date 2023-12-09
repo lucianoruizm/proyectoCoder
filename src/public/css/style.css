@@ -7,6 +7,10 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
+a {
+    text-decoration: none;
+}
+
 h1 {
     color: #363636;
     margin: 30px auto;
@@ -180,4 +184,65 @@ input:focus, select:focus {
     background-color: #2967c4;
     color: white;
     cursor: pointer;
+}
+
+.adminSectionContainer {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.btnContainerAdmin {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.btnAdminOption {
+    padding: 20px;
+    background-color: #2967c4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.btnAdminOption:hover {
+    background-color: #8b84c5;
+}
+
+.profileLinks {
+    width: 20%;
+    margin: 50px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.btnLinks {
+    padding: 20px;
+    background-color: #434e5f;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.btnLinks:hover {
+    background-color: #373642;
+}
+
+.profileSection {
+    margin: 50px 0 0 50px;
+}
+
+.btnLogout {
+    padding: 15px;
+    background-color: #030385;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.btnLogout:hover {
+    background-color: #1d1d52;
 }

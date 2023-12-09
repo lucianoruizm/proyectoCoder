@@ -1,0 +1,69 @@
+<header>
+  <nav>
+    <ul>
+      <li><a href="/profile">Perfil</a></li>
+    </ul>
+  </nav>
+</header>
+<h1>USER MANAGEMENT</h1>
+<table id="users">
+  <tr class="headers">
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Email</th>
+    <th>Rol</th>
+  </tr>
+  {{#each users.docs}}
+    <tr rowId="{{this._id}}">
+      <td>{{this._id}}</td>
+      <td>{{this.name}}</td>
+      <td>{{this.lastname}}</td>
+      <td>{{this.email}}</td>
+      {{#if this.admin}}
+          <td>Admin</td>
+      {{else}} 
+        {{#if this.premium}}
+            <td>Premium</td>
+        {{else}}
+            <td>Basico</td>
+        {{/if}}
+      {{/if}}
+    </tr>
+  {{/each}}
+</table>
+<div class="paginateContainer">
+  <h4>Pagina: {{users.page}} de {{users.totalPages}}</h4>
+  <div class="prevNextPageContainer">
+    {{#if users.hasPrevPage }}
+      <a href="/userManagement?page={{users.prevPage}}">Página previa</a>
+    {{/if}}
+    {{#if users.hasNextPage }}
+      <a href="/userManagement?page={{users.nextPage}}">Página siguiente</a>
+    {{/if}}
+  </div>
+</div>
+<div class="formsContainer">
+
+  <form id="userFormDelete">
+      <h3>ELIMINAR USUARIO</h3>
+      <label for="id" >INGRESAR ID DE USUARIO A ELIMINAR:</label><input type="text" name="id">
+      <input class="btn" type="submit" value="Enviar">
+  </form>
+
+  <form id="userFormEdit">
+      <h3>EDITAR USUARIO</h3>
+      <label for="idEdit" >INGRESAR ID DE USUARIO A EDITAR:</label><input type="text" name="idEdit">
+      <label for="rol" >Rol:</label>
+      <select name="rol" id="rol">
+        <option value="basic">Basico</option>
+        <option value="premium">Premium</option>
+      </select><br>
+      <input class="btn" type="submit" value="Enviar">
+  </form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/usersSocket.js"></script>
+<script src="/js/usersManagement.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

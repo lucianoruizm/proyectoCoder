@@ -55,7 +55,7 @@ const isPremium = (req, res, next) => {
       next()
   } 
   else if (req.user && req.user.admin) {
-      res.redirect('/productsManagement')
+      res.redirect('/menuAdmin')
   } else {
       res.redirect('/products')
   }
@@ -66,7 +66,7 @@ const isUser = (req, res, next) => {
         console.log("Is USER")
         next()
     } else {
-        res.redirect('/productsManagement')
+        res.redirect('/menuAdmin')
     }
 }
 

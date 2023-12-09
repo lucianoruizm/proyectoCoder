@@ -55,19 +55,24 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
             const category = req.query.category || null
             const status = req.query.status || null
             const sort = req.query.sort
+            let owner
+
+            if (req.user.premium) {
+                owner = req.user.email
+            }
 
             const cartId = req.user.cartId
     
-            let url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&sort=${sort}`
+            let url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&owner=${owner}&sort=${sort}`
             
             if (category) {
-                url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&category=${category}&sort=${sort}`
+                url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&owner=${owner}&category=${category}&sort=${sort}`
             }
             if (status !== null) {
-                url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&status=${status}&sort=${sort}`
+                url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&owner=${owner}&status=${status}&sort=${sort}`
             }
             if (category & status) {
-                url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&category=${category}&status=${status}&sort=${sort}`
+                url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&owner=${owner}&category=${category}&status=${status}&sort=${sort}`
             }
     
             const token = req.cookies.authToken;
@@ -88,6 +93,49 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
     
             res.render('products', { products, cartId, user })
         
+})
+
+viewsRouter.get('/menuAdmin', isAdmin, authMiddleware, (req, res, next) => {
+    if (!req.user) {
+        return res.redirect('/')
+    }
+    return next()
+    }, async (req, res) => {
+        res.render('menuAdmin')
+})
+
+viewsRouter.get('/userManagement', isAdmin, authMiddleware, (req, res, next) => {
+    if (!req.user) {
+        return res.redirect('/')
+    }
+    
+    return next()
+    }, async (req, res) => {
+
+        const limit = req.query.limit
+        const page = req.query.page
+        const sort = req.query.sort
+
+        let url = `http://localhost:8080/api/users?limit=${limit}&page=${page}&sort=${sort}`
+
+        const token = req.cookies.authToken;
+        const response = await axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const users = response.data
+
+        const pageNumber = page !== undefined ? parseInt(page) : 1
+
+        if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > users.totalPages) {
+            const message = "El numero de pagina no es valido"
+            return res.render('errorView', { message })
+        }
+
+        res.render('userManagement', { users })
+    
 })
 
 viewsRouter.get('/productsManagement', isAdmin, authMiddleware, (req, res, next) => {

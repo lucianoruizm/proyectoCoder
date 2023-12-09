@@ -1,44 +1,42 @@
-{{#unless user.admin}}
-  <nav>
-    <ul>
-      <li>
-        <a href="/products">Ir a PRODUCTS</a>
-        {{!-- <a href="/cart/64ea4f4893207f61409583a8">Ir al CART</a> --}}
-        <li><a href="/cart/{{cartId}}">Ir al CART</a></li>
-        {{#if user.premium}}
-          <li><a href="/productsPremium">Ir a PRODUCTS PREMIUM</a></li>
-        {{/if}}
-      </li>
-    </ul>
-  </nav>
-{{else}}
-<nav>
-    <ul>
-      <li>
-        <a href="/productsManagement">Ir a GESTION DE PRODUCTOS</a>
-      </li>
-    </ul>
-  </nav>
-{{/unless}}
-Perfil de usuario
-
-<br><br>
-
-Nombre: {{user.name}}<br><br>
-Apellido: {{user.lastname}}<br><br>
-Edad: {{user.age}}<br><br>
-Email: {{user.email}}<br><br>
-{{#if user.admin}}
-  Rol: Admin<br><br>
-{{else}}
-  {{#if user.premium}}
-    Rol: User Premium<br><br>
+<div class="profileSection">
+  Perfil de usuario
+  <br><br>
+  Nombre: {{user.name}}<br><br>
+  Apellido: {{user.lastname}}<br><br>
+  Edad: {{user.age}}<br><br>
+  Email: {{user.email}}<br><br>
+  {{#if user.admin}}
+    Rol: Admin<br><br>
   {{else}}
-    Rol: User<br><br>
+    {{#if user.premium}}
+      Rol: User Premium<br><br>
+    {{else}}
+      Rol: User<br><br>
+    {{/if}}
   {{/if}}
-{{/if}}
 
-<button onclick="logout()">Cerrar Sesion</button>
+  <button class="btnLogout" onclick="logout()">Cerrar Sesion</button>
+
+  {{#unless user.admin}}
+    <nav>
+      <div class="profileLinks">
+          <a class="btnLinks" href="/products">Ir a PRODUCTS</a>
+          <a class="btnLinks" href="/cart/{{cartId}}">Ir al CART</a>
+          {{#if user.premium}}
+            <a class="btnLinks" href="/productsPremium">Ir a PRODUCTS PREMIUM</a>
+          {{/if}}
+      </div>
+    </nav>
+  {{else}}
+  <nav>
+      <div class="profileLinks">
+        <a class="btnLinks" href="/menuAdmin">Menu principal</a>
+        <a class="btnLinks" href="/userManagement">Ir a GESTION DE USUARIOS</a>
+        <a class="btnLinks" href="/productsManagement">Ir a GESTION DE PRODUCTOS</a>
+      </div>
+  </nav>
+  {{/unless}}
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/logout.js"></script>
