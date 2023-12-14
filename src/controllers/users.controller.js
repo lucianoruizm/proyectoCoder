@@ -8,14 +8,14 @@ class UsersController {
     getUsers = async (req, res) => {
         console.log("getUsers en controller")
         try {
-            const limit = parseInt(req.query.limit) || 5
+            const limit = parseInt(req.query.limit) || 7
             const page = parseInt(req.query.page) || 1
             const rol = parseInt(req.query.rol) || null
     
             const params = { limit, page}
             let filter = {}
 
-            if(rol !== null) {
+            if(rol !== null || rol === "admin") {
                 filter.rol = null
             }
     
@@ -32,7 +32,7 @@ class UsersController {
             const getUserById = await this.service.getUserById(userId)
             console.log(getUserById)
             if (!getUserById) {
-                return res.json(`El user con el ID ${userId} no existe`)
+                return res.json(`El USER con el ID ${userId} no existe`)
             }
             return res.json(getUserById)
         } catch (error) {
@@ -46,7 +46,7 @@ class UsersController {
             const data = req.body
             const updateUser = await this.service.updateUser(usertId, data)
             if (!data) {
-                return `No se puede actualizar el producto con ID ${usertId}`
+                return `No se puede actualizar el USER con ID ${usertId}`
             }
             return res.json(updateUser)
         } catch (error) {

@@ -13,6 +13,7 @@
     <th>Apellido</th>
     <th>Email</th>
     <th>Rol</th>
+    <th>Accion</th>
   </tr>
   {{#each users.docs}}
     <tr rowId="{{this._id}}">
@@ -22,11 +23,20 @@
       <td >{{this.email}}</td>
       {{#if this.admin}}
           <td>Admin</td>
+          <td></td>
       {{else}} 
         {{#if this.premium}}
             <td>Premium</td>
+            <td>
+              <button onclick="deleteUser('{{this._id}}')">Eliminar</button>
+              <button onclick="editUser('{{this._id}}','{{this.premium}}')">Cambiar Rol</button>
+            </td>
         {{else}}
             <td>Basico</td>
+            <td>
+              <button onclick="deleteUser('{{this._id}}')">Eliminar</button>
+              <button onclick="editUser('{{this._id}}', 'basic')">Cambiar Rol</button>
+            </td>
         {{/if}}
       {{/if}}
     </tr>
@@ -42,27 +52,6 @@
       <a href="/userManagement?page={{users.nextPage}}">Página siguiente</a>
     {{/if}}
   </div>
-</div>
-<div class="formsContainer">
-
-  <form id="userFormDelete">
-      <h3>ELIMINAR USUARIO</h3>
-      <label for="id" >INGRESAR ID DE USUARIO A ELIMINAR:</label><input type="text" name="id">
-      <input class="btn" type="submit" value="Enviar">
-  </form>
-
-  <form id="userFormEdit">
-      <h3>EDITAR USUARIO</h3>
-      <label for="idEdit" >INGRESAR ID DE USUARIO A EDITAR:</label>
-      <input type="text" name="idEdit">
-
-      <label for="rol" >Rol:</label>
-      <select name="rol" id="rol">
-        <option value="basic">Basico</option>
-        <option value="premium">Premium</option>
-      </select><br>
-      <input class="btn" type="submit" value="Enviar">
-  </form>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

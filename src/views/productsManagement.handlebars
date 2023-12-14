@@ -16,6 +16,7 @@
     <th>Categoría</th>
     <th>Status</th>
     <th>Code</th>
+    <th>Acciones</th>
   </tr>
   {{#each products.docs}}
     <tr rowId="{{this._id}}">
@@ -27,6 +28,9 @@
       <td>{{this.category}}</td>
       <td>{{this.status}}</td>
       <td>{{this.code}}</td>
+      <td>
+        <button onclick="deleteProduct('{{this._id}}')">Eliminar</button>
+      </td>
     </tr>
   {{/each}}
 </table>
@@ -60,12 +64,6 @@
   
       <label for="category" >Category:</label><input type="text" name="category"><br>
   
-      <input class="btn" type="submit" value="Enviar">
-  </form>
-
-  <form id="productFormDelete">
-      <h3>ELIMINAR PRODUCTO</h3>
-      <label for="id" >INGRESAR ID DE PRODUCTO A ELIMINAR:</label><input type="text" name="id">
       <input class="btn" type="submit" value="Enviar">
   </form>
 

@@ -31,8 +31,18 @@ socket.on('editarUser', (data) => {
         <td>${row.cells[3].outerText}</td>
         ${
           user.premium ? 
-          `<td>Premium</td>` : 
-          `<td>Basico</td>`
+          `<td>Premium</td>
+            <td>
+              <button onclick="deleteUser('${user._id}')">Eliminar</button>
+              <button onclick="editUser('${user._id}','${user.premium}')">Cambiar Rol</button>
+            </td>
+          ` : 
+          `<td>Basico</td>
+           <td>
+              <button onclick="deleteUser('${user._id}')">Eliminar</button>
+              <button onclick="editUser('${user._id}', 'basic')">Cambiar Rol</button>
+           </td>
+          `
         }
     </tr>
     `

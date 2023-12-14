@@ -15,6 +15,9 @@ socket.on('nuevoProducto', (data) => {
       <td>${product.category}</td>
       <td>${product.status}</td>
       <td>${product.code}</td>
+      <td>
+        <button onclick="deleteProduct('{{product._id}}')">Eliminar</button>
+      </td>
   </tr>
   `
 
@@ -58,6 +61,9 @@ socket.on('editarProducto', (data) => {
         <td>${product.category}</td>
         <td>${product.status}</td>
         <td>${product.code}</td>
+        <td>
+          <button onclick="deleteProduct('{{product._id}}')">Eliminar</button>
+        </td>
     </tr>
     `
   }

@@ -1,34 +1,20 @@
-
-const userFormDelete = document.getElementById('userFormDelete')
-userFormDelete.addEventListener('submit', async (event) => {
-  event.preventDefault()
-
-  const idUser = document.querySelector('input[name="id"]').value;
-  console.log(idUser)
-
+const deleteUser = async (userId) => {
+  console.log(userId)
   try {
-    await axios.delete(`http://localhost:8080/api/users/${idUser}`);
+    await axios.delete(`http://localhost:8080/api/users/${userId}`);
     alert("User Eliminado")
-    socket.emit('eliminarUser', idUser)
-    userFormDelete.reset()
+    socket.emit('eliminarUser', userId)
   } catch (error) {
     console.error(error)
   }
-});
+}
 
-const userFormEdit = document.getElementById('userFormEdit');
-userFormEdit.addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const idUser = document.querySelector('input[name="idEdit"]').value;
+const editUser = async (idUser, rol) => {
   console.log(idUser)
-
-  const rol = document.querySelector('select[name="rol"]').value;
-  let premium
   
   const userUpdated = {
     _id: idUser,
-    premium: rol === 'basic' ? premium === false : premium = true
+    premium: rol === 'basic' ? true : false
   }
 
   console.log(userUpdated)
@@ -42,4 +28,4 @@ userFormEdit.addEventListener('submit', async (event) => {
     alert("No se pudo actualizar el User")
     console.log(error);
   }
-});
+}

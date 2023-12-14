@@ -36,22 +36,17 @@ productForm.addEventListener('submit', async (event) => {
   }
 });
 
-const productFormDelete = document.getElementById('productFormDelete')
-productFormDelete.addEventListener('submit', async (event) => {
-  event.preventDefault()
-
-  const idProduct = document.querySelector('input[name="id"]').value;
+const deleteProduct = async (idProduct) => {
   console.log(idProduct)
 
   try {
     await axios.delete(`http://localhost:8080/api/products/${idProduct}`);
     alert("Producto Eliminado")
     socket.emit('eliminarProducto', idProduct)
-    productFormDelete.reset()
   } catch (error) {
     console.error(error)
   }
-});
+}
 
 const productFormEdit = document.getElementById('productFormEdit');
 productFormEdit.addEventListener('submit', async (event) => {

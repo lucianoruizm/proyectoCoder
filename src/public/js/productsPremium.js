@@ -24,31 +24,39 @@ productForm.addEventListener('submit', async (event) => {
   };
 
   try {
-    await axios.post('http://localhost:8080/api/products', productData)
-    alert("Producto Agregado")
-    socket.emit('nuevoProducto', JSON.stringify(productData))
+    const response = await axios.post('http://localhost:8080/api/products', productData)
+  
+    if (response.status === 201) {
+      const getProducts = await axios.get(`http://localhost:8080/api/products/productsPremium`)
+      const productsList = getProducts.data.docs
+      console.log(productsList)
+      const newProduct = productsList.find(product => product.code === code);
+      console.log(newProduct)
+      if (newProduct) {
+        alert("Producto Agregado")
+        socket.emit('nuevoProducto', JSON.stringify(newProduct))
+      } else {
+        console.error("No se pudo encontrar el nuevo producto en la lista de productos.");
+      }
+
+    }
     productForm.reset()
   } catch (error) {
     console.error(error);
   }
 });
 
-const productFormDelete = document.getElementById('productFormDelete')
-productFormDelete.addEventListener('submit', async (event) => {
-  event.preventDefault()
-
-  const idProduct = document.querySelector('input[name="id"]').value;
+const deleteProduct = async (idProduct) => {
   console.log(idProduct)
 
   try {
     await axios.delete(`http://localhost:8080/api/products/${idProduct}`);
     alert("Producto Eliminado")
     socket.emit('eliminarProducto', idProduct)
-    productFormDelete.reset()
   } catch (error) {
     console.error(error)
   }
-});
+}
 
 const productFormEdit = document.getElementById('productFormEdit');
 productFormEdit.addEventListener('submit', async (event) => {
