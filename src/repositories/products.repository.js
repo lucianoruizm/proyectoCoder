@@ -20,6 +20,17 @@ class ProductsRepository {
             })
     }
 
+    getOneByCode (code) {
+        return this.dao.getOneByCode(code)
+            .then(product => {
+                if (!product) {
+                    throw new Error('Producto no encontrado')
+                }
+
+                return product
+            })
+    }
+
     create (data) {
         return this.dao.create(data)
             .then(product => {

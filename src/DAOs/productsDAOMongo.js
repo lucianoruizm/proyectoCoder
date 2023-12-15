@@ -21,6 +21,17 @@ class ProductsDAOMongo {
             })
     }
 
+    getOneByCode (code) {
+        return this.model.findOne(code)
+            .then(product => {
+                if (!product) {
+                    throw new Error('Producto no encontrado')
+                }
+
+                return product
+            })
+    }
+
     create (data) {
         return this.model.create(
           {

@@ -28,6 +28,19 @@ class ProductsService {
         return `Error al obtener producto con ID: ${id}`;
       }
     }
+
+    async getProductByCode(code) {
+      try {
+        const product = await this.repository.getOneByCode(code);
+
+        console.log('Producto encontrado por CODE:', code)
+        return product
+        
+      } catch (e) {
+        console.log('Error: ', e);
+        return `Error al obtener producto con CODE: ${code}`;
+      }
+    }
     
     async addProduct(data) {
       try {

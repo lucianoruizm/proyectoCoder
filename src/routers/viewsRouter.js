@@ -75,12 +75,7 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
                 url = `http://localhost:8080/api/products?limit=${limit}&page=${page}&owner=${owner}&category=${category}&status=${status}&sort=${sort}`
             }
     
-            const token = req.cookies.authToken;
-            const response = await axios.get(url, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await axios.get(url)
     
             const products = response.data
     
@@ -118,12 +113,7 @@ viewsRouter.get('/userManagement', isAdmin, authMiddleware, (req, res, next) => 
 
         let url = `http://localhost:8080/api/users?limit=${limit}&page=${page}&sort=${sort}`
 
-        const token = req.cookies.authToken;
-        const response = await axios.get(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const response = await axios.get(url)
 
         const users = response.data
 
@@ -163,12 +153,7 @@ viewsRouter.get('/productsManagement', isAdmin, authMiddleware, (req, res, next)
             url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&category=${category}&status=${status}&sort=${sort}`
         }
 
-        const token = req.cookies.authToken;
-        const response = await axios.get(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const response = await axios.get(url);
 
         const products = response.data
         const pageNumber = page !== undefined ? parseInt(page) : 1
@@ -207,12 +192,7 @@ viewsRouter.get('/productsPremium', isPremium, authMiddleware, (req, res, next) 
         url = `http://localhost:8080/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&category=${category}&status=${status}&sort=${sort}`
     }
 
-    const token = req.cookies.authToken;
-    const response = await axios.get(url, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
+    const response = await axios.get(url);
 
     const products = response.data
     console.log("Productos Premium: ", products)

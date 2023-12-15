@@ -125,6 +125,21 @@ class ProductsController {
         }
     }
 
+    getProductByCode = async (req, res) => {
+        try {
+            const productCode = req.params.code
+            const getProductByCode = await this.service.getProductByCode(productCode)
+            console.log(getProductByCode)
+            if (!getProductByCode) {
+                return res.json(`El producto con el CODE ${productCode} no existe`)
+            }
+            return res.json(getProductByCode)
+        } catch (error) {
+            req.logger.warning(`Error al obtener PRODUCT por CODE: ${error}`)
+            res.send({ message: "Error al obtener PRODUCT por CODE"})
+        }
+    }
+
     addProduct = async (req, res) => {
         try {
             let data = req.body

@@ -1,18 +1,17 @@
 <header>
-  <h1>Bienvenido!</h1>
   <nav>
-    <ul>
-      <li><a href="/profile">Perfil</a></li>
-      <li><a href="/cart/{{cartId}}">Ir al CART</a></li>
+    <div class="linksContainer">
+      <a class="linkNavbar" href="/profile">Perfil</a>
+      <a class="linkNavbar" href="/cart/{{cartId}}">Ir al CART</a>
       {{#if user.premium}}
-        <li><a href="/productsPremium">Ir a PRODUCTS PREMIUM</a>
+        <a class="linkNavbar" href="/productsPremium">Ir a PRODUCTS PREMIUM</a>
       {{/if}}
-    </ul>
+    </div>
   </nav>
 </header>
+<h1>Bienvenido!</h1>
 <div class="homeContainer">
-    <h1>PRODUCTS</h1>
-    <h2>Lista de Productos:</h2>
+    <h1>LISTA DE PRODUCTOS</h1>
     {{#if error}}
         <p>{{ error }}</p>
     {{else}}

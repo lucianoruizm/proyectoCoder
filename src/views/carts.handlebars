@@ -1,12 +1,12 @@
 <header>
   <nav>
-    <ul>
-      <li><a href="/profile">Perfil</a></li>
-      <li><a href="/products">Ir a PRODUCTS</a></li>
+    <divclass="linksContainer">
+      <a href="/profile">Perfil</a>
+      <a href="/products">Ir a PRODUCTS</a>
       {{#if user.premium}}
-        <li><a href="/productsPremium">Ir a PRODUCTS PREMIUM</a>
+        <a href="/productsPremium">Ir a PRODUCTS PREMIUM</a>
       {{/if}}
-    </ul>
+    </div>
   </nav>
 </header>
 <div class="homeContainer">

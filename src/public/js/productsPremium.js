@@ -27,18 +27,8 @@ productForm.addEventListener('submit', async (event) => {
     const response = await axios.post('http://localhost:8080/api/products', productData)
   
     if (response.status === 201) {
-      const getProducts = await axios.get(`http://localhost:8080/api/products/productsPremium`)
-      const productsList = getProducts.data.docs
-      console.log(productsList)
-      const newProduct = productsList.find(product => product.code === code);
-      console.log(newProduct)
-      if (newProduct) {
-        alert("Producto Agregado")
-        socket.emit('nuevoProducto', JSON.stringify(newProduct))
-      } else {
-        console.error("No se pudo encontrar el nuevo producto en la lista de productos.");
-      }
-
+      alert("Producto Agregado")
+      socket.emit('nuevoProducto', JSON.stringify(productData))
     }
     productForm.reset()
   } catch (error) {
