@@ -1,3 +1,4 @@
+
 const deleteUser = async (userId) => {
   try {
     const deleteUser = await axios.delete(`http://localhost:8080/api/users/${userId}`)
@@ -5,16 +6,16 @@ const deleteUser = async (userId) => {
       alert("User Eliminado")
       socket.emit('eliminarUser', userId)
 
-      const fechaHoraActual = new Date();
+      const newDate = new Date()
 
-      const dia = fechaHoraActual.getDate().toString().padStart(2, '0')
-      const mes = (fechaHoraActual.getMonth() + 1).toString().padStart(2, '0')
-      const anio = fechaHoraActual.getFullYear();
-      const horas = fechaHoraActual.getHours().toString().padStart(2, '0')
-      const minutos = fechaHoraActual.getMinutes().toString().padStart(2, '0')
-      const segundos = fechaHoraActual.getSeconds().toString().padStart(2, '0')
-
-      const datetime = `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`
+      const day = newDate.getDate().toString().padStart(2, '0')
+      const month = (newDate.getMonth() + 1).toString().padStart(2, '0')
+      const year = newDate.getFullYear();
+      const hour = newDate.getHours().toString().padStart(2, '0')
+      const minutes = newDate.getMinutes().toString().padStart(2, '0')
+      const seconds = newDate.getSeconds().toString().padStart(2, '0')
+      
+      const datetime = `${day}/${month}/${year} ${hour}:${minutes}:${seconds}`
 
       let body = {
         id: userId,

@@ -29,18 +29,19 @@ socket.on('editarUser', (data) => {
         <td>${row.cells[1].outerText}</td>
         <td>${row.cells[2].outerText}</td>
         <td>${row.cells[3].outerText}</td>
+        <td>${row.cells[4].outerText}</td>
         ${
           user.premium ? 
           `<td>Premium</td>
             <td>
-              <button onclick="deleteUser('${user._id}')">Eliminar</button>
-              <button onclick="editUser('${user._id}','${user.premium}')">Cambiar Rol</button>
+              <button class="deleteBtn" onclick="deleteUser('${user._id}')">Eliminar</button>
+              <button class="editBtn" onclick="editUser('${user._id}','${user.premium}')">Cambiar Rol</button>
             </td>
           ` : 
           `<td>Basico</td>
            <td>
-              <button onclick="deleteUser('${user._id}')">Eliminar</button>
-              <button onclick="editUser('${user._id}', 'basic')">Cambiar Rol</button>
+              <button class="deleteBtn" onclick="deleteUser('${user._id}')">Eliminar</button>
+              <button class="editBtn" onclick="editUser('${user._id}', 'basic')">Cambiar Rol</button>
            </td>
           `
         }
@@ -48,14 +49,3 @@ socket.on('editarUser', (data) => {
     `
   }
 })
-
-
-// {{#if this.admin}}
-//           <td>Admin</td>
-//       {{else}} 
-//         {{#if this.premium}}
-//             <td>Premium</td>
-//         {{else}}
-//             <td>Basico</td>
-//         {{/if}}
-//       {{/if}}

@@ -18,7 +18,7 @@ socket.on('nuevoProducto', (data) => {
       <td>${product.code}</td>
       ${isAdmin ? '<td>admin</td>' : `<td>${product.owner}</td>`}
       <td>
-        <button onclick="deleteProduct('{{product._id}}')">Eliminar</button>
+        <button class="deleteBtn" onclick="deleteProduct('{{product._id}}')">Eliminar</button>
       </td>
   </tr>
   `

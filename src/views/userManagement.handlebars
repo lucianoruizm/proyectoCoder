@@ -1,8 +1,9 @@
 <header>
   <nav>
-    <ul>
-      <li><a href="/profile">Perfil</a></li>
-    </ul>
+    <div class="linksContainer">
+      <a class="linkNavbar" href="/profile">Perfil</a>
+      <a class="linkNavbar" href="/productsManagement">GESTION DE PRODUCTOS</a>
+    </div>
   </nav>
 </header>
 <h1>USER MANAGEMENT</h1>
@@ -12,6 +13,7 @@
     <th>Nombre</th>
     <th>Apellido</th>
     <th>Email</th>
+    <th>Ultima conexión</th>
     <th>Rol</th>
     <th>Accion</th>
   </tr>
@@ -21,6 +23,7 @@
       <td >{{this.name}}</td>
       <td >{{this.lastname}}</td>
       <td >{{this.email}}</td>
+      <td>{{this.lastLogin}}</td>
       {{#if this.admin}}
           <td>Admin</td>
           <td></td>
@@ -28,14 +31,14 @@
         {{#if this.premium}}
             <td>Premium</td>
             <td>
-              <button onclick="deleteUser('{{this._id}}')">Eliminar</button>
-              <button onclick="editUser('{{this._id}}','{{this.premium}}')">Cambiar Rol</button>
+              <button class="deleteBtn" onclick="deleteUser('{{this._id}}')">Eliminar</button>
+              <button class="editBtn" onclick="editUser('{{this._id}}','{{this.premium}}')">Cambiar Rol</button>
             </td>
         {{else}}
             <td>Basico</td>
             <td>
-              <button onclick="deleteUser('{{this._id}}')">Eliminar</button>
-              <button onclick="editUser('{{this._id}}', 'basic')">Cambiar Rol</button>
+              <button class="deleteBtn" onclick="deleteUser('{{this._id}}')">Eliminar</button>
+              <button class="editBtn" onclick="editUser('{{this._id}}', 'basic')">Cambiar Rol</button>
             </td>
         {{/if}}
       {{/if}}

@@ -23,11 +23,12 @@ const gitHubStrategy = new GitHubStrategy({
 
       const newUser = await userModel.create({
         email: profile._json.login,
-        name: profile._json.name
+        name: profile._json.name,
       })
       
       const token = generateToken(newUser)
       console.log({ token })
+
       return done(null, {
         ...newUser,
         access_token: token

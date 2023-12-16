@@ -16,6 +16,10 @@ const userSchema = Schema({
     ref: 'carts' },
   admin: Boolean,
   premium: Boolean,
+  lastLogin: {
+    type: String,
+    default: null
+  }
 })
 userSchema.plugin(mongoosePaginate)
 

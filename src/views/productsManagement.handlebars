@@ -1,12 +1,13 @@
 <header>
   <nav>
-    <ul>
-      <li><a href="/profile">Perfil</a></li>
-    </ul>
+    <div class="linksContainer">
+      <a class="linkNavbar" href="/profile">Perfil</a>
+      <a class="linkNavbar" href="/userManagement">GESTION DE USUARIOS</a>
+    </div>
   </nav>
 </header>
 <h1>PRODUCTS MANAGEMENT</h1>
-<table id="productos">
+<table id="productos" class="productsTable">
   <tr class="headers">
     <th>ID</th>
     <th>Nombre</th>
@@ -35,11 +36,12 @@
         <td>admin</td>
       {{/if}}
       <td>
-        <button onclick="deleteProduct('{{this._id}}', '{{this.owner}}')">Eliminar</button>
+        <button class="deleteBtn" onclick="deleteProduct('{{this._id}}', '{{this.owner}}')">Eliminar</button>
       </td>
     </tr>
   {{/each}}
 </table>
+<a class="linkToForms" href="#productForm">Agregar Producto / Editar Producto ↓</a>
 <div class="paginateContainer">
   <h4>Pagina: {{products.page}} de {{products.totalPages}}</h4>
   <div class="prevNextPageContainer">
@@ -52,7 +54,6 @@
   </div>
 </div>
 <div class="formsContainer">
-  
   <form id="productForm">
       <h3>AGREGAR PRODUCTO</h3>
       <label for="title" >Title:</label><input type="text" name="title"><br>

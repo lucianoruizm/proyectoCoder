@@ -12,6 +12,7 @@ body {
     padding: 0;
     background-color: #0000001a;
     font-family: 'Lato', sans-serif;
+    font-size: 12px;
 }
 
 a {
@@ -140,11 +141,16 @@ td {
 .headers {
     background-color: #2b2a2a;
     color: #fff;
+    font-size: 1em;
 }
 
 .headersPremium {
     background-color: #8b84c5;
     color: #fff;
+}
+
+.productsTable {
+    margin: 0 50px;
 }
 
 tr {
@@ -223,10 +229,16 @@ input:focus, select:focus {
 }
 
 #purchaseBtn {
-    padding: 10px;
+    padding: 5px;
     background-color: var(--btn1);
     color: white;
     cursor: pointer;
+    border: none;
+    border-radius: 2px;
+}
+
+#purchaseBtn:hover {
+    background-color: #204275;
 }
 
 .adminSectionContainer {
@@ -314,4 +326,61 @@ input:focus, select:focus {
 .linkNavbar:hover {
     font-size: 1em;
     color: #5d5d6b;
-} 
+}
+
+.deleteBtn {
+    padding: 5px;
+    background-color: #da3131;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+}
+
+.deleteBtn:hover {
+    background-color: #9b2121;
+}
+
+.editBtn {
+    padding: 5px;
+    background-color: var(--btn1);
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+}
+
+.editBtn:hover {
+    background-color: #204275;
+}
+
+.linkToForms {
+    margin-left: 50px;
+}
+
+.substractBtn, .addBtn {
+    padding: 8px;
+    color: white;
+    background-color: rgb(110, 109, 109);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.substractBtn:hover, .addBtn:hover {
+    color: black;
+    background-color: #969696;
+}
+
+.addtoCartBtn {
+    padding: 5px;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    background-color: var(--btn1);
+    cursor: pointer;
+}
+
+.addtoCartBtn:hover {
+    background-color: rgb(88, 8, 24);
+}
