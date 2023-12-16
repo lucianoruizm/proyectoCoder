@@ -45,4 +45,27 @@ const generateEmailBody = (ticketInfo) => {
   `
 }
 
-module.exports = { transport, generateEmailBody }
+const generateEmailDeleteProduct = (product) => {
+    return `
+        <div>
+            <h1>SU PRODUCTO HA SIDO ELIMINADO</h1>
+            <p><b>ID del producto:</b>${product._id}</p>
+            <p><b>Titulo:</b>${product.title}</p>
+            <p><b>Código:</b> ${product.code}</p>
+            <img src="cid:logo"/>
+        </div>
+    `
+}
+
+const generateEmailDeleteUser = (data) => {
+    return `
+        <div>
+            <h1>SU CUENTA HA SIDO ELIMINADA POR INACTIVIDAD</h1>
+            <p><b>ID de su Usuario:</b>${data.id}</p>
+            <p><b>Fecha y Hora de eliminación:</b>${data.datetime}</p>
+            <img src="cid:logo"/>
+        </div>
+    `
+}
+
+module.exports = { transport, generateEmailBody, generateEmailDeleteProduct, generateEmailDeleteUser }

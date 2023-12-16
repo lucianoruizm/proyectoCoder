@@ -36,13 +36,27 @@ productForm.addEventListener('submit', async (event) => {
   }
 });
 
-const deleteProduct = async (idProduct) => {
-  console.log(idProduct)
+const deleteProduct = async (idProduct, rol) => {
+  console.log("DELETE PRODUCT, ", idProduct, rol)
+  let body
+  let headers
 
   try {
-    await axios.delete(`http://localhost:8080/api/products/${idProduct}`);
-    alert("Producto Eliminado")
-    socket.emit('eliminarProducto', idProduct)
+
+    if (rol) {
+      const getProduct = await axios.get(`http://localhost:8080/api/products/${idProduct}`)
+      body = getProduct.data
+      console.log("BODY en delete product: ", body)
+    }
+
+    const deleteProduct = await axios.delete(`http://localhost:8080/api/products/${idProduct}`)
+
+    if (deleteProduct.status === 200) {
+      alert("Producto Eliminado")
+      socket.emit('eliminarProducto', idProduct)
+      rol ? await axios.post(`http://localhost:8080/api/mail`, body, {header: headers}) : console.log("Aviso de eliminacion de producto")
+    }
+
   } catch (error) {
     console.error(error)
   }

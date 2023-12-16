@@ -8,18 +8,42 @@ const config = configFn()
 class MailController {
 
     sendMail = async(req, res) => {
+
         try {
-            let result = await mail.transport.sendMail({
-              from: `CODER ECOMMERCE ${config.email_account}`,
-              to: config.destination_email,
-              subject:'TICKET DE COMPRA',
-              html: mail.generateEmailBody(req.body),
-              attachments:[{
-                filename:'coder-ecommerce-logo',
-                path:'src/assets/coder-ecommerce-logo.PNG',
-                cid: 'logo'
-              }]
-            })
+            if (req.body.ticket) {
+
+              await mail.transport.sendMail({
+                from: `CODER ECOMMERCE ${config.email_account}`,
+                to: config.destination_email,
+                subject:'TICKET DE COMPRA',
+                html: mail.generateEmailBody(req.body),
+                attachments:[{
+                  filename:'coder-ecommerce-logo',
+                  path:'src/assets/coder-ecommerce-logo.PNG',
+                  cid: 'logo'
+                }]
+              })
+
+            } else if (req.body.title) {
+
+              await mail.transport.sendMail({
+                from: `CODER ECOMMERCE ${config.email_account}`,
+                to: req.body.owner,
+                subject:'AVISO ELIMINACION DE SU PRODUCTO',
+                html: mail.generateEmailDeleteProduct(req.body)
+              })
+
+            } else {
+
+              await mail.transport.sendMail({
+                from: `CODER ECOMMERCE ${config.email_account}`,
+                to: config.destination_email,
+                subject:'AVISO ELIMINACION DE SU CUENTA',
+                html: mail.generateEmailDeleteUser(req.body)
+              })
+              
+            }
+
             res.send({status: "success", result:"mail enviado"})
             
         } catch (error) {

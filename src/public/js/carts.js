@@ -108,7 +108,7 @@ async () => {
 
       if(responsePurchase.status === 200) {
         await axios.post(`http://localhost:8080/api/mail`, body, {header: headers})
-        await axios.get(`http://localhost:8080/api/sms/${body.userId}/${body.ticket.code}`, body, {header: headers})
+        //await axios.get(`http://localhost:8080/api/sms/${body.userId}/${body.ticket.code}`, body, {header: headers})
       }
       
       window.location.href = '/products'

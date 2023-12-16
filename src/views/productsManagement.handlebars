@@ -16,6 +16,7 @@
     <th>Categoría</th>
     <th>Status</th>
     <th>Code</th>
+    <th>Owner</th>
     <th>Acciones</th>
   </tr>
   {{#each products.docs}}
@@ -28,8 +29,13 @@
       <td>{{this.category}}</td>
       <td>{{this.status}}</td>
       <td>{{this.code}}</td>
+      {{#if this.owner }}
+        <td>{{this.owner}}</td>
+      {{else}}
+        <td>admin</td>
+      {{/if}}
       <td>
-        <button onclick="deleteProduct('{{this._id}}')">Eliminar</button>
+        <button onclick="deleteProduct('{{this._id}}', '{{this.owner}}')">Eliminar</button>
       </td>
     </tr>
   {{/each}}
