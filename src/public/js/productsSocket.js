@@ -4,6 +4,7 @@ socket.on('nuevoProducto', (data) => {
   console.log('Cliente. POST')
   const product = data
   console.log("*** socket new product: ***", product)
+  const isAdmin = !product.owner
 
   const productHTML = `
   <tr>
@@ -15,6 +16,7 @@ socket.on('nuevoProducto', (data) => {
       <td>${product.category}</td>
       <td>${product.status}</td>
       <td>${product.code}</td>
+      ${isAdmin ? '<td>admin</td>' : `<td>${product.owner}</td>`}
       <td>
         <button onclick="deleteProduct('{{product._id}}')">Eliminar</button>
       </td>

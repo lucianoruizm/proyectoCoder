@@ -1,1 +1,2 @@
 warning: ¡Error al obtener CARTS!: TypeError: res.jsn is not a function
+warning: Error al agregar PRODUCT: TypeError: Cannot read properties of undefined (reading 'premium')

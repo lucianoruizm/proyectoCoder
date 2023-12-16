@@ -9,6 +9,10 @@ class ProductsRepository {
         return this.dao.getAll(filter, params)
     }
 
+    getAllPremium (filter, params) {
+        return this.dao.getAllPremium(filter, params)
+    }
+
     getOne (id) {
         return this.dao.getOne(id)
             .then(product => {

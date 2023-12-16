@@ -7,6 +7,18 @@ class ProductsDAOMongo {
 
     getAll (filter, params) {
         console.log("getAll en DAO")
+        if (filter.owner) {
+            filter.$or = [
+                { owner: null },
+                { owner: { $ne: filter.owner } }
+            ]
+            delete filter.owner
+        }
+        return this.model.paginate(filter, params)
+    }
+
+    getAllPremium (filter, params) {
+        console.log("getAllPremium en DAO")
         return this.model.paginate(filter, params)
     }
 

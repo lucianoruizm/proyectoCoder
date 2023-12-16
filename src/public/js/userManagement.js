@@ -42,7 +42,6 @@ const editUser = async (idUser, rol) => {
     socket.emit('editarUser', JSON.stringify(userUpdated))
     await axios.put(`http://localhost:8080/api/users/${idUser}`, userUpdated);
     alert("User actualizado")
-    userFormEdit.reset();
   } catch (error) {
     alert("No se pudo actualizar el User")
     console.log(error);

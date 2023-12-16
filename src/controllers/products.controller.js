@@ -30,7 +30,7 @@ class ProductsController {
             }
 
             if(owner !== null) {
-                filter.owner = null
+                filter.owner = owner
             }
     
             if(sort !== null) {
@@ -102,7 +102,7 @@ class ProductsController {
                 params.sort = { price: sort}
             }
     
-            const getAllProducts = await this.service.getProducts(filter, params)
+            const getAllProducts = await this.service.getProductsPremium(filter, params)
             return res.json(getAllProducts)
         } catch(error) {
             req.logger.warning(`Error al obtener PRODUCTS: ${error}`)

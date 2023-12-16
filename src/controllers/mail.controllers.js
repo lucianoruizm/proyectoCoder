@@ -30,7 +30,12 @@ class MailController {
                 from: `CODER ECOMMERCE ${config.email_account}`,
                 to: req.body.owner,
                 subject:'AVISO ELIMINACION DE SU PRODUCTO',
-                html: mail.generateEmailDeleteProduct(req.body)
+                html: mail.generateEmailDeleteProduct(req.body),
+                attachments:[{
+                  filename:'coder-ecommerce-logo',
+                  path:'src/assets/coder-ecommerce-logo.PNG',
+                  cid: 'logo'
+                }]
               })
 
             } else {
@@ -39,7 +44,12 @@ class MailController {
                 from: `CODER ECOMMERCE ${config.email_account}`,
                 to: config.destination_email,
                 subject:'AVISO ELIMINACION DE SU CUENTA',
-                html: mail.generateEmailDeleteUser(req.body)
+                html: mail.generateEmailDeleteUser(req.body),
+                attachments:[{
+                  filename:'coder-ecommerce-logo',
+                  path:'src/assets/coder-ecommerce-logo.PNG',
+                  cid: 'logo'
+                }]
               })
               
             }

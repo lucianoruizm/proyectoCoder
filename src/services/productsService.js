@@ -16,6 +16,17 @@ class ProductsService {
       }
     }
 
+    async getProductsPremium (filter, params) {
+      try {
+        
+        const products = await this.repository.getAllPremium(filter, params)
+
+        return products
+      } catch (err) {
+        return `No se encontraron productos, ${err}`;
+      }
+    }
+
     async getProductById(id) {
       try {
         const product = await this.repository.getOne(id);
