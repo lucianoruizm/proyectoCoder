@@ -1,40 +1,35 @@
+<h1 class="profileTitle">PROFILE</h1>
 <div class="profileSection">
-  <h3>Perfil de usuario</h3>
-  <br><br>
-  Nombre: {{user.name}}<br><br>
-  Apellido: {{user.lastname}}<br><br>
-  Edad: {{user.age}}<br><br>
-  Email: {{user.email}}<br><br>
-  {{#if user.admin}}
-    Rol: Admin<br><br>
-  {{else}}
-    {{#if user.premium}}
-      Rol: User Premium<br><br>
+  <div class="profileContainer">
+    Nombre: {{user.name}}<br><br>
+    Apellido: {{user.lastname}}<br><br>
+    Edad: {{user.age}}<br><br>
+    Email: {{user.email}}<br><br>
+    {{#if user.admin}}
+      Rol: Admin<br><br>
     {{else}}
-      Rol: User<br><br>
+      {{#if user.premium}}
+        Rol: User Premium<br><br>
+      {{else}}
+        Rol: User<br><br>
+      {{/if}}
     {{/if}}
-  {{/if}}
-
-  <button class="btnLogout" onclick="logout()">Cerrar Sesion</button>
-
+    <button class="btnLogout" onclick="logout()">Cerrar Sesion</button>
+  </div>
   {{#unless user.admin}}
-    <nav>
-      <div class="profileLinks">
-          <a class="btnLinks" href="/products">Ir a PRODUCTS</a>
-          <a class="btnLinks" href="/cart/{{cartId}}">Ir al CART</a>
-          {{#if user.premium}}
-            <a class="btnLinks" href="/productsPremium">Ir a PRODUCTS PREMIUM</a>
-          {{/if}}
-      </div>
-    </nav>
+    <div class="profileLinks">
+        <a class="btnLinks" href="/products">Ir a PRODUCTS</a>
+        <a class="btnLinks" href="/cart/{{cartId}}">Ir al CART</a>
+        {{#if user.premium}}
+          <a class="btnLinks" href="/productsPremium">Ir a PRODUCTS PREMIUM</a>
+        {{/if}}
+    </div>
   {{else}}
-  <nav>
-      <div class="profileLinks">
-        <a class="btnLinks" href="/menuAdmin">Menu principal</a>
-        <a class="btnLinks" href="/userManagement">Ir a GESTION DE USUARIOS</a>
-        <a class="btnLinks" href="/productsManagement">Ir a GESTION DE PRODUCTOS</a>
-      </div>
-  </nav>
+    <div class="profileLinks">
+      <a class="btnLinks" href="/menuAdmin">Menu principal</a>
+      <a class="btnLinks" href="/userManagement">Ir a GESTION DE USUARIOS</a>
+      <a class="btnLinks" href="/productsManagement">Ir a GESTION DE PRODUCTOS</a>
+    </div>
   {{/unless}}
 </div>
 

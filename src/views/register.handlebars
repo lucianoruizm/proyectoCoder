@@ -1,17 +1,19 @@
-<h2>Registro</h2>
+<h2>REGISTER</h2>
 
-<form id="registerForm">
-  Nombre: <input type="text" name="name"><br><br>
-  Apellido: <input type="text" name="lastname"><br><br>
-  Email: <input type="text" name="email"><br><br>
-  Edad: <input type="text" name="age"><br><br>
-  Contraseña: <input type="password" name="password"><br><br>
-  <label for="premiumCheckbox">Premium:</label>
-  <input type="checkbox" id="premiumCheckbox" name="premium">
-
-  <input type="submit" value="Registrar">
-
-</form>
+<div class="loginContainer">
+  <form id="registerForm">
+    Nombre: <input type="text" name="name">
+    Apellido: <input type="text" name="lastname">
+    Email: <input type="text" name="email">
+    Edad: <input type="text" name="age">
+    Contraseña: <input type="password" name="password">
+    <div class="checkboxPremiumContainer">
+      <label for="premiumCheckbox">Premium:</label>
+      <input type="checkbox" id="premiumCheckbox" name="premium">
+    </div>
+    <input class="loginBtn" type="submit" value="REGISTRARSE">
+  </form>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/register.js"></script>

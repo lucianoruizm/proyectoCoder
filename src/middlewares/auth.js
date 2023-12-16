@@ -16,7 +16,7 @@ const authMiddleware = async (req, res, next) => {
   
     if (!token) {
       return res.status(401).json({
-        error: 'No puede acceder'
+        error: 'No tiene acceso al sitio web'
       })
     }
   

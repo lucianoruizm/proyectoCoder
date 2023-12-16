@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
+:root {
+    --btn1: #2967c4;
+    --btn2: #242222;
+    --btn3: #c97646;
+    --btn-hover: #494949;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -49,39 +56,31 @@ h2 {
     margin: auto;
 }
 
-#loginForm {
-    gap: 10px;
-}
-
 .loginBtn {
     margin-top: 20px;
-    padding: 20px;
+    padding: 10px;
     cursor: pointer;
-    background-color: #2967c4;
+    background-color: var(--btn1);
     color: #c8cfda;
 }
 
 .recoveryPasswordBtn {
     margin: 20px 0;
     cursor: pointer;
-    color: #2967c4;
+    color: var(--btn1);
 }
 
 .recoveryPasswordBtn:hover {
-    color: #c97646;
+    color: var(--btn-hover);
 }
 
 .githubloginbtn {
     margin-top: 20px;
-    padding: 20px;
+    padding: 10px;
     cursor: pointer;
-    background-color: #242222;
+    background-color: var(--btn2);
     color: #c8cfda;
     text-align: center;
-}
-
-.loginBtn:hover, .githubloginbtn:hover {
-    background-color: #494949;
 }
 
 .btnRegisterContainer {
@@ -93,12 +92,30 @@ h2 {
 .registerBtn {
     padding: 20px;
     cursor: pointer;
-    background-color: #c97646;
+    background-color: var(--btn3);
     color: #c8cfda;
 }
 
 .registerBtn:hover {
-    background-color: #494949;
+    background-color: var(--btn-hover);
+}
+
+.checkboxPremiumContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.recoveryContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+.loginBtn:hover, .githubloginbtn:hover {
+    background-color: var(--btn-hover);
 }
 
 table {
@@ -173,7 +190,7 @@ input, select {
     outline: none;
     border: 1px solid #fff;
     background-color: #fff;
-    color: #242222;
+    color: var(--btn2);
 }
 
 select {
@@ -182,7 +199,7 @@ select {
 
 input:focus, select:focus {
     background-color: #c8cfda;
-    border: 1px solid #2967c4;
+    border: 1px solid var(--btn1);
 }
 
 .btn {
@@ -207,39 +224,49 @@ input:focus, select:focus {
 
 #purchaseBtn {
     padding: 10px;
-    background-color: #2967c4;
+    background-color: var(--btn1);
     color: white;
     cursor: pointer;
 }
 
 .adminSectionContainer {
-    margin-top: 100px;
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
-    gap: 100px;
+    gap: 60px;
 }
 
 .btnContainerAdmin {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
 }
 
 .btnAdminOption {
     padding: 20px;
-    background-color: #2967c4;
+    background-color: var(--btn1);
     color: #fff;
     border: none;
     cursor: pointer;
 }
 
 .btnAdminOption:hover {
-    background-color: #8b84c5;
+    background-color: var(--btn-hover);
+}
+
+.profileTitle {
+    text-align: left;
+    margin-left: 50px;
+}
+
+.profileSection {
+    margin: 50px 0 0 50px;
+    display: flex;
+    gap: 100px;
+    align-items: center;
 }
 
 .profileLinks {
-    width: 20%;
-    margin: 50px 0;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -257,16 +284,13 @@ input:focus, select:focus {
     background-color: #373642;
 }
 
-.profileSection {
-    margin: 50px 0 0 50px;
-}
-
 .btnLogout {
     padding: 15px;
     background-color: #030385;
     color: #fff;
     border: none;
     cursor: pointer;
+    width: 100%;
 }
 
 .btnLogout:hover {
