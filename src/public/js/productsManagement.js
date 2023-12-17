@@ -26,7 +26,7 @@ productForm.addEventListener('submit', async (event) => {
   };
 
   try {
-    await axios.post('http://localhost:8080/api/products', productData)
+    await axios.post(`${process.env.BASE_URL}/api/products`, productData)
     alert("Producto Agregado")
     socket.emit('nuevoProducto', JSON.stringify(productData))
     productForm.reset()
@@ -44,17 +44,17 @@ const deleteProduct = async (idProduct, rol) => {
   try {
 
     if (rol) {
-      const getProduct = await axios.get(`http://localhost:8080/api/products/${idProduct}`)
+      const getProduct = await axios.get(`${process.env.BASE_URL}/api/products/${idProduct}`)
       body = getProduct.data
       console.log("BODY en delete product: ", body)
     }
 
-    const deleteProduct = await axios.delete(`http://localhost:8080/api/products/${idProduct}`)
+    const deleteProduct = await axios.delete(`${process.env.BASE_URL}/api/products/${idProduct}`)
 
     if (deleteProduct.status === 200) {
       alert("Producto Eliminado")
       socket.emit('eliminarProducto', idProduct)
-      rol ? await axios.post(`http://localhost:8080/api/mail`, body, {header: headers}) : console.log("Aviso de eliminacion de producto")
+      rol ? await axios.post(`${process.env.BASE_URL}/api/mail`, body, {header: headers}) : console.log("Aviso de eliminacion de producto")
     }
 
   } catch (error) {
@@ -94,7 +94,7 @@ productFormEdit.addEventListener('submit', async (event) => {
 
   try {
     socket.emit('editarProducto', JSON.stringify(productUpdated))
-    await axios.put(`http://localhost:8080/api/products/${idProduct}`, productUpdated);
+    await axios.put(`${process.env.BASE_URL}/api/products/${idProduct}`, productUpdated);
     alert("Producto Editado")
     productFormEdit.reset();
   } catch (error) {

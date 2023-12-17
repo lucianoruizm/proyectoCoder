@@ -4,7 +4,7 @@ const deleteFromCart = async (productId) => {
   console.log("cartId: ", cartId)
   console.log("productId: ", productId)
   try {
-    await axios.delete(`http://localhost:8080/api/carts/${cartId}/product/${productId}`);
+    await axios.delete(`${process.env.BASE_URL}/api/carts/${cartId}/product/${productId}`);
     socket.emit('eliminarProductoDelCart', JSON.stringify(productId))
   } catch (error) {
     console.error(error);
@@ -35,7 +35,7 @@ const substractFunction = async (productId, quantity) => {
   }
   
   try {
-    await axios.put(`http://localhost:8080/api/carts/${cartId}/product/${productId}`, data);
+    await axios.put(`${process.env.BASE_URL}/api/carts/${cartId}/product/${productId}`, data);
     socket.emit('restarProducto', JSON.stringify(dataSocket))
   } catch (error) {
     console.error(error);
@@ -57,7 +57,7 @@ const sumFunction = async (productId, quantity) => {
   }
 
   try {
-    const response = await axios.put(`http://localhost:8080/api/carts/${cartId}/product/${productId}`, data);
+    const response = await axios.put(`${process.env.BASE_URL}/api/carts/${cartId}/product/${productId}`, data);
     console.log(response)
     socket.emit('sumarProducto', JSON.stringify(dataSocket))
   } catch (error) {
@@ -76,7 +76,7 @@ document.getElementById('clearCart').addEventListener('click',
 async () => {
   try {
     const cartId = document.getElementById('clearCart').dataset.cartId
-    await axios.delete(`http://localhost:8080/api/carts/${cartId}`)
+    await axios.delete(`${process.env.BASE_URL}/api/carts/${cartId}`)
     console.log("Se limpio CART")
     socket.emit('limpiarCart')
   } catch (error) {
@@ -90,13 +90,13 @@ async () => {
   try {
     const cartId = document.getElementById('purchaseBtn').dataset.cartId
     console.log("este es cartId: ", cartId)
-    const response = await axios.get(`http://localhost:8080/api/carts/${cartId}`)
+    const response = await axios.get(`${process.env.BASE_URL}/api/carts/${cartId}`)
     cart = response.data
     console.log("Este es el cart", cart)
     
     if (cart) {
       const productsToPurchase = cart.products
-      const responsePurchase = await axios.post(`http://localhost:8080/api/carts/${cartId}/purchase`, { products: productsToPurchase })
+      const responsePurchase = await axios.post(`${process.env.BASE_URL}/api/carts/${cartId}/purchase`, { products: productsToPurchase })
       console.log("Esta es la respuesta del post de compra: ", responsePurchase.data)
 
       const headers = {
@@ -107,7 +107,7 @@ async () => {
       console.log("BODY en JS: ", body)
 
       if(responsePurchase.status === 200) {
-        await axios.post(`http://localhost:8080/api/mail`, body, {header: headers})
+        await axios.post(`${process.env.BASE_URL}/api/mail`, body, {header: headers})
         //await axios.get(`http://localhost:8080/api/sms/${body.userId}/${body.ticket.code}`, body, {header: headers})
       }
       

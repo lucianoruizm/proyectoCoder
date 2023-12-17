@@ -2,7 +2,9 @@ const express = require('express')
 const axios = require('axios')
 const viewsRouter = express.Router()
 const { authMiddleware, isAdmin, isPremium, isUser, isLoggedIn } = require('../middlewares/auth')
+const { config } = require('dotenv')
 
+const base_url = config.BASE_URL 
 
 viewsRouter.get('/register', (req, res) => {
     if (res.user) {
@@ -63,16 +65,16 @@ viewsRouter.get('/products', isUser, authMiddleware, (req, res, next) => {
 
             const cartId = req.user.cartId
     
-            let url = `http://localhost:8080/api/products?limit=${limit}&page=${page}${owner}&sort=${sort}`
+            let url = `${base_url}/api/products?limit=${limit}&page=${page}${owner}&sort=${sort}`
             
             if (category) {
-                url = `http://localhost:8080/api/products?limit=${limit}&page=${page}${owner}&category=${category}&sort=${sort}`
+                url = `${base_url}/api/products?limit=${limit}&page=${page}${owner}&category=${category}&sort=${sort}`
             }
             if (status !== null) {
-                url = `http://localhost:8080/api/products?limit=${limit}&page=${page}${owner}&status=${status}&sort=${sort}`
+                url = `${base_url}/api/products?limit=${limit}&page=${page}${owner}&status=${status}&sort=${sort}`
             }
             if (category & status) {
-                url = `http://localhost:8080/api/products?limit=${limit}&page=${page}${owner}&category=${category}&status=${status}&sort=${sort}`
+                url = `${base_url}/api/products?limit=${limit}&page=${page}${owner}&category=${category}&status=${status}&sort=${sort}`
             }
     
             const response = await axios.get(url)
@@ -111,7 +113,7 @@ viewsRouter.get('/userManagement', isAdmin, authMiddleware, (req, res, next) => 
         const page = req.query.page
         const sort = req.query.sort
 
-        let url = `http://localhost:8080/api/users?limit=${limit}&page=${page}&sort=${sort}`
+        let url = `${base_url}/api/users?limit=${limit}&page=${page}&sort=${sort}`
 
         const response = await axios.get(url)
 
@@ -141,16 +143,16 @@ viewsRouter.get('/productsManagement', isAdmin, authMiddleware, (req, res, next)
         const status = req.query.status || null
         const sort = req.query.sort
 
-        let url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&sort=${sort}`
+        let url = `${base_url}/api/products/productsManagement?limit=${limit}&page=${page}&sort=${sort}`
         
         if (category) {
-            url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&category=${category}&sort=${sort}`
+            url = `${base_url}/api/products/productsManagement?limit=${limit}&page=${page}&category=${category}&sort=${sort}`
         }
         if (status !== null) {
-            url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&status=${status}&sort=${sort}`
+            url = `${base_url}/api/products/productsManagement?limit=${limit}&page=${page}&status=${status}&sort=${sort}`
         }
         if (category & status) {
-            url = `http://localhost:8080/api/products/productsManagement?limit=${limit}&page=${page}&category=${category}&status=${status}&sort=${sort}`
+            url = `${base_url}/api/products/productsManagement?limit=${limit}&page=${page}&category=${category}&status=${status}&sort=${sort}`
         }
 
         const response = await axios.get(url);
@@ -180,16 +182,16 @@ viewsRouter.get('/productsPremium', isPremium, authMiddleware, (req, res, next) 
     const owner = req.user.email
     const sort = req.query.sort
 
-    let url = `http://localhost:8080/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&sort=${sort}`
+    let url = `${base_url}/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&sort=${sort}`
     
     if (category) {
-        url = `http://localhost:8080/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&category=${category}&sort=${sort}`
+        url = `${base_url}/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&category=${category}&sort=${sort}`
     }
     if (status !== null) {
-        url = `http://localhost:8080/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&status=${status}&sort=${sort}`
+        url = `${base_url}/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&status=${status}&sort=${sort}`
     }
     if (category & status) {
-        url = `http://localhost:8080/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&category=${category}&status=${status}&sort=${sort}`
+        url = `${base_url}/api/products/productsPremium?limit=${limit}&page=${page}&owner=${owner}&category=${category}&status=${status}&sort=${sort}`
     }
 
     const response = await axios.get(url);
@@ -212,7 +214,7 @@ viewsRouter.get('/cart/:cid', isUser, authMiddleware, async (req, res) => {
         user = user.toObject()
 
         const cartId = req.params.cid
-        const response = await axios.get(`http://localhost:8080/api/carts/${cartId}`)
+        const response = await axios.get(`${base_url}/api/carts/${cartId}`)
         const cart = response.data
 
         res.render('carts', { cart, user })

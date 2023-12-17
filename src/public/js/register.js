@@ -19,13 +19,13 @@ registerForm.addEventListener('submit', async (event) => {
   };
 
   try {
-    const response = await axios.post('http://localhost:8080/api/session/register', userData);
+    const response = await axios.post(`${process.env.BASE_URL}/api/session/register`, userData);
     console.log("DATOS CON LOS CUALES SE REGISTRO", userData)
     const body = {
       email: userData.email
     }
     console.log("email: ", email)
-    const createCart = await axios.post('http://localhost:8080/api/carts', body)
+    const createCart = await axios.post(`${process.env.BASE_URL}/api/carts`, body)
     console.log(createCart)
 
     alert("Registro exitoso")

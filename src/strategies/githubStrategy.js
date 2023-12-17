@@ -10,7 +10,7 @@ const config = configFn()
 const gitHubStrategy = new GitHubStrategy({
   clientID: config.clientid,
   clientSecret: config.clientsecret,
-  callbackURL: 'http://localhost:8080/api/session/github-callback'
+  callbackURL: config.BASE_URL + '/api/session/github-callback'
   }, async (accessToken, refreshToken, profile, done) => {
   
     try {

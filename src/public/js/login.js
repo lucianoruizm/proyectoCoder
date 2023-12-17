@@ -11,7 +11,7 @@ loginForm.addEventListener('submit', async (event) => {
   };
 
   try {
-    const response = await axios.post('http://localhost:8080/api/session/login', userData);
+    const response = await axios.post(`${process.env.BASE_URL}/api/session/login`, userData);
     //alert("Inicio de sesion exitoso")
     console.log("RESPONSE: ", response.status)
     loginForm.reset();
