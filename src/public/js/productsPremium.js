@@ -11,7 +11,6 @@ productForm.addEventListener('submit', async (event) => {
   const stock = document.querySelector('input[name="stock"]').value;
   const status = document.querySelector('select[name="status"]').value;
   const category = document.querySelector('input[name="category"]').value;
-  const userType = document.querySelector('input[name="userType"]').value;
 
   const productData = {
     title,
@@ -25,11 +24,11 @@ productForm.addEventListener('submit', async (event) => {
   };
 
   try {
-    const response = await axios.post(`${process.env.BASE_URL}/api/products`, productData)
+    const response = await axios.post(`${url}/api/products`, productData)
   
     if (response.status === 201) {
       alert("Producto Agregado")
-      socket.emit('nuevoProducto', JSON.stringify(productData))
+      socket.emit('nuevoProductoPremium', JSON.stringify(productData))
     }
     productForm.reset()
   } catch (error) {
@@ -41,7 +40,7 @@ const deleteProduct = async (idProduct) => {
   console.log(idProduct)
 
   try {
-    await axios.delete(`${process.env.BASE_URL}/api/products/${idProduct}`);
+    await axios.delete(`${url}/api/products/${idProduct}`);
     alert("Producto Eliminado")
     socket.emit('eliminarProducto', idProduct)
   } catch (error) {
@@ -80,9 +79,9 @@ productFormEdit.addEventListener('submit', async (event) => {
   console.log(productUpdated)
 
   try {
-    await axios.put(`${process.env.BASE_URL}/api/products/${idProduct}`, productUpdated);
+    await axios.put(`${url}/api/products/${idProduct}`, productUpdated);
     alert("Producto Editado")
-    socket.emit('editarProducto', JSON.stringify(productUpdated))
+    socket.emit('editarProductoPremium', JSON.stringify(productUpdated))
     productFormEdit.reset();
   } catch (error) {
     console.log(error);

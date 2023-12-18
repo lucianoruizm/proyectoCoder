@@ -11,7 +11,7 @@ recoveryForm.addEventListener('submit', async (event) => {
   };
 
   try {
-    const response = await axios.post(`${process.env.BASE_URL}/api/session/recovery-password`, userData);
+    const response = await axios.post(`${url}/api/session/recovery-password`, userData);
     
     recoveryForm.reset();
     window.location.href = '/'

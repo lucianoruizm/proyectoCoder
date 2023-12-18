@@ -28,7 +28,7 @@ class MailController {
 
               await mail.transport.sendMail({
                 from: `CODER ECOMMERCE ${config.email_account}`,
-                to: req.body.owner,
+                to: config.destination_email, //req.body.owner
                 subject:'AVISO ELIMINACION DE SU PRODUCTO',
                 html: mail.generateEmailDeleteProduct(req.body),
                 attachments:[{

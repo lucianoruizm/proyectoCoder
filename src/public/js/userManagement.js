@@ -1,7 +1,7 @@
 
 const deleteUser = async (userId) => {
   try {
-    const deleteUser = await axios.delete(`${process.env.BASE_URL}/api/users/${userId}`)
+    const deleteUser = await axios.delete(`${url}/api/users/${userId}`)
     if (deleteUser.status === 200) {
       alert("User Eliminado")
       socket.emit('eliminarUser', userId)
@@ -22,7 +22,7 @@ const deleteUser = async (userId) => {
         datetime: datetime,
       }
 
-      await axios.post(`${process.env.BASE_URL}/api/mail`, body)
+      await axios.post(`${url}/api/mail`, body)
     }
   } catch (error) {
     console.error(error)
@@ -41,7 +41,7 @@ const editUser = async (idUser, rol) => {
 
   try {
     socket.emit('editarUser', JSON.stringify(userUpdated))
-    await axios.put(`${process.env.BASE_URL}/api/users/${idUser}`, userUpdated);
+    await axios.put(`${url}/api/users/${idUser}`, userUpdated);
     alert("User actualizado")
   } catch (error) {
     alert("No se pudo actualizar el User")

@@ -3,7 +3,7 @@ const addToCart = async (productId) => {
   const cartId = document.getElementById('cart-id').value
   console.log(cartId)
   try {
-    await axios.post(`${process.env.BASE_URL}api/carts/${cartId}/product/${productId}`);
+    await axios.post(`${url}api/carts/${cartId}/product/${productId}`);
   } catch (error) {
     console.error('Error al agregar producto:', error.message);
     

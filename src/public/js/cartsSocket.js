@@ -80,13 +80,13 @@ socket.on('restarProducto', (data) => {
         <td>${originalCategory}</td>
         <td>${data.quantity}</td>
         <td>
-            <button onclick="substractFunction('${data.productId}','${data.quantity}')">-</button>
+            <button class="substractBtn" onclick="substractFunction('${data.productId}','${data.quantity}')">-</button>
         </td>
         <td>
-            <button onclick="sumFunction('${data.productId}','${data.quantity}')">+</button>
+            <button class="addBtn" onclick="sumFunction('${data.productId}','${data.quantity}')">+</button>
         </td>
         <td>
-            <button onclick="deleteFromCart('${data.productId}')">Delete</button>
+            <button class="deleteBtn" onclick="deleteFromCart('${data.productId}')">Delete</button>
         </td>
       `;
     }

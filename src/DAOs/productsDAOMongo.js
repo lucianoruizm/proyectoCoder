@@ -69,15 +69,15 @@ class ProductsDAOMongo {
 
     update (id, data) {
         const productUpdated = {
-            _id: product._id,
-            title: data.title || product.code,
-            description: data.description || product.description,
-            price: data.price || product.price,
-            thumbnail: data.thumbnail || product.thumbnail,
-            code: data.code || product.code,
-            stock: data.stock || product.stock,
-            status: data.status || product.status,
-            category: data.category || product.category
+            _id: data._id,
+            title: data.title,
+            description: data.description,
+            price: data.price,
+            thumbnail: data.thumbnail,
+            code: data.code,
+            stock: data.stock,
+            status: data.status,
+            category: data.category
           }
 
         return this.model.updateOne({ _id: id}, productUpdated)

@@ -7,6 +7,11 @@ const handleSocketEvents = (io) => {
           const product = JSON.parse(data);
           io.emit('nuevoProducto', product);
         });
+
+        socket.on('nuevoProductoPremium', (data) => {
+          const product = JSON.parse(data);
+          io.emit('nuevoProductoPremium', product);
+        });
       
         socket.on('eliminarProducto', (productId) => {
           io.emit('eliminarProducto', productId);
@@ -14,6 +19,10 @@ const handleSocketEvents = (io) => {
     
         socket.on('editarProducto', (data) => {
           io.emit('editarProducto', JSON.parse(data));
+        });
+
+        socket.on('editarProductoPremium', (data) => {
+          io.emit('editarProductoPremium', JSON.parse(data));
         });
     
         socket.on('eliminarProductoDelCart', (data) => {
