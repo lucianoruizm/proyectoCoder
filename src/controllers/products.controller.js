@@ -1,4 +1,4 @@
-const CustomError = require('../services/errors/customError')
+const CustomError = require('../services/errors/CustomError')
 const EErrors = require('../services/errors/enums')
 const generateProductErrorInfo = require('../services/errors/info')
 const ProductsService = require('../services/productsService')
