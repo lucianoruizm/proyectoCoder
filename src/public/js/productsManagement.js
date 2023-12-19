@@ -39,7 +39,7 @@ productForm.addEventListener('submit', async (event) => {
 const deleteProduct = async (idProduct, rol) => {
   console.log("DELETE PRODUCT, ", idProduct, rol)
   let body
-  let headers
+  console.log("rol: ", rol)
 
   try {
 
@@ -54,7 +54,7 @@ const deleteProduct = async (idProduct, rol) => {
     if (deleteProduct.status === 200) {
       alert("Producto Eliminado")
       socket.emit('eliminarProducto', idProduct)
-      rol ? await axios.post(`${url}/api/mail`, body, {header: headers}) : console.log("Aviso de eliminacion de producto")
+      rol === 'admin' ? console.log("Se elimino producto de admin") : await axios.post(`${url}/api/mail`, body)
     }
 
   } catch (error) {
