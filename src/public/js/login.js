@@ -12,8 +12,7 @@ loginForm.addEventListener('submit', async (event) => {
   };
 
   try {
-    const response = await axios.post(`${url}/api/session/login`, userData);
-    //alert("Inicio de sesion exitoso")
+    const response = await axios.post(`${url}/api/session/login`, userData)
     console.log("RESPONSE: ", response.status)
     loginForm.reset();
     window.location.href = '/products'
